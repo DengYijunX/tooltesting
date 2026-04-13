@@ -16,8 +16,25 @@ RERANK_MODEL = os.getenv("SF_RERANK_MODEL", "BAAI/bge-reranker-v2-m3")
 
 DATA_DIR = os.getenv("DATA_DIR", "data")
 INDEX_DIR = os.getenv("INDEX_DIR", "storage/faiss_index")
+
 RECALL_K = int(os.getenv("RECALL_K", "8"))
-FINAL_TOP_N = int(os.getenv("FINAL_TOP_N", "4"))
+FINAL_TOP_N = int(os.getenv("FINAL_TOP_N", "2"))
+
+SUPPORTED_SUBJECTS = [
+    "psychology",
+    "physics",
+    "math",
+    "finance",
+    "mixed",
+    "all",
+]
+
+ENABLED_SUBJECTS = [
+    "psychology",
+    "physics",
+    "mixed",
+    "all",
+]
 
 def validate_config():
     if not SILICONFLOW_API_KEY:
