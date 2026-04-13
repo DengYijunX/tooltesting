@@ -1,0 +1,75 @@
+{
+  "topic": "条件发射",
+  "created_at": "2026-04-13T15:33:40.288994",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-13T15:33:43.280231",
+      "input": {
+        "topic": "条件发射"
+      },
+      "output": {
+        "retrieved_docs": [
+          {
+            "content": "4. 延伸现象\n- 泛化：对相似刺激也发生反应\n- 分化：只对特定刺激反应\n- 消退：条件刺激长期不再与无条件刺激配对，条件反应减弱\n- 自发恢复：消退后经过一段时间，条件反应可能再次出现\n\n四、操作性条件作用\n1. 基本含义\n操作性条件作用强调“行为—结果”的联系。个体会学习某种行为会带来什么后果，而后果会影响该行为未来出现的概率。\n\n2. 核心概念\n- 强化：使行为更可能再次出现\n- 惩罚：使行为更不可能再次出现\n\n3. 常见分类\n- 正强化：给予愉快结果，增加行为\n- 负强化：移除令人厌恶的刺激，增加行为\n- 正惩罚：加入令人不快的结果，减少行为\n- 负惩罚：移除令人喜欢的结果，减少行为\n\n五、观察学习\n观察学习强调个体可以通过观察他人的行为及其结果来学习，而不一定依赖自己直接试错。\n这类学习与示范、模仿、榜样作用密切相关。\n\n六、三种学习形式的简单比较\n1. 经典条件作用：刺激与刺激的联结\n2. 操作性条件作用：行为与结果的联结\n3. 观察学习：通过观察他人获得行为模式",
+            "metadata": {
+              "source": "学习理论.txt",
+              "page": null,
+              "chunk_id": 1,
+              "subject": "psychology",
+              "faiss_score": 1.070861577987671,
+              "rerank_score": 0.0017982039134949446
+            }
+          },
+          {
+            "content": "学习理论资料（入门版）\n\n一、什么是学习\n学习通常指个体在练习、观察或其他经验基础上获得新的信息、行为或能力，并表现出相对持久变化的过程。\n要注意把学习与本能、反射区分开来：本能和反射主要是先天的，而学习强调经验带来的改变。\n\n二、学习的三种基础形式\n1. 经典条件作用（classical conditioning）\n2. 操作性条件作用（operant conditioning）\n3. 观察学习（observational learning）\n\n三、经典条件作用\n1. 基本含义\n经典条件作用是通过把原本中性的刺激与能自然引发反应的刺激反复配对，使中性刺激后来也能引发类似反应的学习过程。\n\n2. 经典例子\n巴甫洛夫在狗的研究中发现，食物会自然引起分泌唾液；如果铃声反复与食物同时出现，后来仅铃声也可能引发唾液反应。\n\n3. 核心术语\n- 无条件刺激（US）：天然能引起反应的刺激，如食物\n- 无条件反应（UR）：天然产生的反应，如唾液分泌\n- 条件刺激（CS）：原本中性、后来能引起反应的刺激，如铃声\n- 条件反应（CR）：学习后由条件刺激引发的反应",
+            "metadata": {
+              "source": "学习理论.txt",
+              "page": null,
+              "chunk_id": 0,
+              "subject": "psychology",
+              "faiss_score": 1.1685785055160522,
+              "rerank_score": 0.000956535863224417
+            }
+          },
+          {
+            "content": "六、三种学习形式的简单比较\n1. 经典条件作用：刺激与刺激的联结\n2. 操作性条件作用：行为与结果的联结\n3. 观察学习：通过观察他人获得行为模式\n\n七、学习理论的教学启示\n- 及时反馈有助于稳定正确行为\n- 合理强化通常比单纯惩罚更有助于建立目标行为\n- 榜样示范对学习效果具有重要影响\n- 学习环境中的线索、后果与重复练习都会影响学习质量\n\n八、适合做知识库的关键词\n学习；条件作用；经典条件作用；操作性条件作用；强化；惩罚；观察学习；泛化；消退；示范\n\n参考资料\n1. APA Dictionary of Psychology: learning\n2. OpenStax, Psychology 2e, 6.1 What Is Learning?\n3. OpenStax, Psychology 2e, 6.2 Classical Conditioning\n4. OpenStax, Psychology 2e, 6.3 Operant Conditioning",
+            "metadata": {
+              "source": "学习理论.txt",
+              "page": null,
+              "chunk_id": 2,
+              "subject": "psychology",
+              "faiss_score": 1.1688042879104614,
+              "rerank_score": 0.0007134474581107497
+            }
+          },
+          {
+            "content": "2. **区分描述、解释和干预**  \n   描述现象并不等于已经找到原因；找到原因也不等于立刻能提出有效干预。\n\n3. **注意伦理边界**  \n   心理学材料常涉及隐私、心理健康和社会评价，使用时应避免把教学分类直接当作临床诊断。\n\n## 6. 入门知识框架建议\n可以先按下面路线学习：\n\n心理学对象与方法  \n→ 感觉与知觉  \n→ 学习  \n→ 记忆  \n→ 思维与语言  \n→ 情绪与动机  \n→ 人格  \n→ 发展心理学  \n→ 社会心理学\n\n## 7. 适合做知识库的关键词\n心理学；行为；认知；情绪；动机；发展；人格；学习；记忆；实验法；调查法；测验法\n\n## 参考资料\n1. APA Dictionary of Psychology: psychology\n2. OpenStax, *Psychology 2e*, Chapter 1",
+            "metadata": {
+              "source": "心理学导论.md",
+              "page": null,
+              "chunk_id": 5,
+              "subject": "psychology",
+              "faiss_score": 1.3893964290618896,
+              "rerank_score": 0.00039939183625392616
+            }
+          }
+        ],
+        "retrieval_summary": "[片段1] source=学习理论.txt chunk=1 rerank_score=0.0017982039134949446\n[片段2] source=学习理论.txt chunk=0 rerank_score=0.000956535863224417\n[片段3] source=学习理论.txt chunk=2 rerank_score=0.0007134474581107497\n[片段4] source=心理学导论.md chunk=5 rerank_score=0.00039939183625392616"
+      },
+      "error": null
+    },
+    {
+      "step": "modeling_agent",
+      "timestamp": "2026-04-13T15:34:43.521121",
+      "input": {
+        "topic": "条件发射",
+        "retrieved_docs_count": 4
+      },
+      "output": {
+        "knowledge_schema": "\n\n# 核心概念  \n1. 条件刺激（CS）与无条件刺激（US）的配对关系  \n2. 强化（Reinforcement）与惩罚（Punishment）的分类及作用机制  \n3. 泛化（Generalization）与消退（Extinction）的动态过程  \n4. 行为-结果联结的量化模型（操作性条件作用）  \n5. 刺激-反应联结的量化模型（经典条件作用）  \n\n# 可量化对象  \n- 条件刺激出现频率（CS_frequency）  \n- 强化类型（正强化/负强化）与强度（reinforce_strength）  \n- 惩罚类型（正惩罚/负惩罚）与强度（punish_strength）  \n- 刺激-反应联结强度（CR_strength，0-1区间）  \n- 行为发生概率（behavior_prob，0-1区间）  \n- 消退周期（extinction_cycle，时间单位）  \n- 泛化程度（generalization_rate，0-1区间）  \n\n# 可规则化条件  \n1. **强化规则**  \n   - 正强化：当CS触发后给予奖励（reinforce_reward），CR_strength += reinforce_strength  \n   - 负强化：当CS触发后移除厌恶刺激（reinforce_remove_aversion），CR_strength += reinforce_strength  \n   - 正惩罚：当CS触发后施加不快结果（punish_unpleasant），CR_strength -= punish_strength  \n   - 负惩罚：当CS触发后剥夺愉悦结果（punish_remove_pleasure），CR_strength -= punish_strength  \n\n2. **消退规则**  \n   - 当CS连续N次未与US配对时，CR_strength *= 0.8（按指数衰减）  \n   - 消退后若间隔T时间，CR_strength += spontaneous_recovery_rate（0-0.2区间）  \n\n3. **泛化规则**  \n   - 相似刺激（CS_similar）与原CS的匹配度（similarity_score，0-1）决定CR_strength变化  \n   - 泛化率 = similarity_score × generalization_rate  \n\n# 适合的题型  \n1. **模拟题**：根据给定参数模拟条件反射强度变化过程  \n2. **计算题**：基于强化/惩罚规则计算最终行为概率  \n3. **判断题**：识别条件刺激与行为结果的联结类型  \n4. **参数优化题**：设计强化策略使目标行为概率最大化  \n\n# 推荐的输入输出设计  \n- **输入**：  \n  - 初始CR_strength值（0-1）  \n  - 强化/惩罚类型与强度参数（如：{type: \"positive\", strength: 0.3}）  \n  - 刺激配对次数（pairing_count）  \n  - 消退触发条件（如：连续未配对次数threshold=5）  \n  - 泛化匹配度（similarity_score）  \n\n- **输出**：  \n  - 最终条件反应强度（CR_strength）  \n  - 行为概率变化曲线（时间序列数据）  \n  - 是否发生消退/自发恢复的布尔标志  \n  - 泛化行为的反应强度（generalized_CR_strength）  \n\n# 建议题目方向  \n设计一个模拟程序，根据以下规则计算条件反射强度变化：  \n- 初始条件反应强度为0.2  \n- 每次正强化使CR_strength增加0.1（上限1.0）  \n- 每次负强化使CR_strength增加0.05（上限1.0）  \n- 连续3次未配对触发消退（CR_strength *= 0.7）  \n- 消退后间隔5次操作，CR_strength自动恢复10%  \n- 相似刺激匹配度≥0.6时，触发泛化反应（CR_strength += 0.15）  \n要求：实现参数化配置，输出不同强化策略下的CR_strength变化趋势。"
+      },
+      "error": null
+    }
+  ]
+}

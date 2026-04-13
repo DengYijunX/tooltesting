@@ -20,17 +20,54 @@ def load_txt_md(path: Path) -> List[Document]:
     return _add_common_metadata(docs, path)
 
 
+def is_noise_page(text: str) -> bool:
+    t = text.strip()
+
+    if len(t) < 40:
+        return True
+
+    chinese_count = sum('\u4e00' <= ch <= '\u9fff' for ch in t)
+    alpha_count = sum(ch.isalpha() for ch in t)
+    if chinese_count + alpha_count < 20:
+        return True
+
+    if "目录" in t and t.count("...") >= 2:
+        return True
+
+    lines = [line.strip() for line in t.splitlines() if line.strip()]
+    if len(lines) <= 2:
+        joined = " ".join(lines)
+        if joined.isdigit():
+            return True
+
+    return False
+
+
 def load_pdf(path: Path) -> List[Document]:
     loader = PyPDFLoader(str(path))
     docs = loader.load()
-    return _add_common_metadata(docs, path)
+
+    filtered_docs = []
+    for doc in docs:
+        text = doc.page_content.strip()
+        if is_noise_page(text):
+            continue
+
+        doc.metadata["source"] = path.name
+        doc.metadata["file_path"] = str(path)
+        doc.metadata["file_type"] = "pdf"
+        filtered_docs.append(doc)
+
+    return filtered_docs
 
 
 def infer_subject_from_path(path: Path) -> str:
     parts = [p.lower() for p in path.parts]
-    if "psychology" in parts or "心理" in path.name.lower():
+    name = path.name.lower()
+
+    if "psychology" in parts or "心理" in name:
         return "psychology"
-    if "physics" in parts or "物理" in path.name.lower():
+    if "physics" in parts or "物理" in name:
         return "physics"
     return "mixed"
 
@@ -43,6 +80,7 @@ def load_docs_from_dir(data_dir: str) -> List[Document]:
             continue
 
         suffix = path.suffix.lower()
+
         if suffix in [".txt", ".md"]:
             docs = load_txt_md(path)
         elif suffix == ".pdf":
