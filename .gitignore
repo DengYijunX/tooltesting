@@ -1,0 +1,40 @@
+# 虚拟环境
+venv/
+env/
+ENV/
+*.venv
+.venv/
+
+# Python 编译文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local
+
+# IDE 相关文件
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 存储目录（包含生成的索引文件）
+storage/
+
+# 临时文件
+*.tmp
+*.temp
+.tmp/
+.temp/
+
+# 日志文件
+*.log
+logs/
