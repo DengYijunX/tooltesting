@@ -1,6 +1,6 @@
 from typing import Dict, Any
 
-from app.audit.audit_logger import AuditLogger
+from app.utils.audit_logger import AuditLogger
 from app.agents.retrieval_agent import run_retrieval_agent
 from app.agents.modeling_agent import run_modeling_agent
 from app.agents.drafting_agent import run_drafting_agent
