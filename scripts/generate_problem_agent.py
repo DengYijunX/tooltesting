@@ -52,6 +52,11 @@ def print_failure_result(result: dict):
         print("\n===== 原始题面输出 =====\n")
         print(final_result.get("raw_problem_output", ""))
 
+    elif error_type == "knowledge_insufficient":
+        print("详细信息：", final_result.get("details", []))
+        print("\n===== 知识充分性统计 =====\n")
+        print(json.dumps(final_result.get("knowledge_stats", {}), ensure_ascii=False, indent=2))
+
     elif error_type == "solution_invalid":
         print("详细信息：", final_result.get("details", []))
         print("\n===== 原始参考答案输出 =====\n")
@@ -60,6 +65,13 @@ def print_failure_result(result: dict):
         if final_result.get("reference_code"):
             print("\n===== 解析出的参考代码 =====\n")
             print(final_result.get("reference_code"))
+
+    elif error_type in {"consistency_invalid", "testcase_invalid", "sandbox_invalid", "final_review_invalid"}:
+        print("详细信息：")
+        print(json.dumps(final_result.get("details", []), ensure_ascii=False, indent=2))
+        if final_result.get("suggestions"):
+            print("\n===== 修复建议 =====\n")
+            print(json.dumps(final_result.get("suggestions", []), ensure_ascii=False, indent=2))
 
     else:
         print("返回内容：")
@@ -81,6 +93,21 @@ def print_success_result(result: dict):
 
     print("\n===== 参考代码 =====\n")
     print(result.get("reference_code", ""))
+
+    print("\n===== 一致性检查 =====\n")
+    print(json.dumps({
+        "consistency_passed": result.get("consistency_passed"),
+        "consistency_issues": result.get("consistency_issues", []),
+    }, ensure_ascii=False, indent=2))
+
+    print("\n===== 测试用例 =====\n")
+    print(json.dumps(result.get("test_cases", []), ensure_ascii=False, indent=2))
+
+    print("\n===== 沙箱结果 =====\n")
+    print(json.dumps(result.get("sandbox_result", {}), ensure_ascii=False, indent=2))
+
+    print("\n===== 最终审核 =====\n")
+    print(json.dumps(result.get("final_review", {}), ensure_ascii=False, indent=2))
 
     print("\n===== 审计文件 =====")
     print(result.get("audit_file", ""))

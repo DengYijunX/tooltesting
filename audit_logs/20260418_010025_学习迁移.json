@@ -1,0 +1,117 @@
+{
+  "topic": "学习迁移",
+  "created_at": "2026-04-18T01:00:25.079831",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-18T01:00:26.713279",
+      "input": {
+        "topic": "学习迁移",
+        "subject": "psychology"
+      },
+      "output": {
+        "retrieved_docs": [
+          {
+            "content": "8. 对学习实践的启示\n这类研究支持了分散复习、及时回顾、重复提取等策略的重要性。把复习安排在多次、分开的时间\n点，通常比临时突击更稳。\n9. 使用提醒\n遗忘曲线是教学中的经典模型，但在具体应用时仍要考虑材料意义性、学习策略、个体差异与测试\n方式。\n参考资料\nAPA Dictionary of Psychology; OpenStax Psychology 2e, Chapter 8; OpenStax 8.3 Problems with Memory",
+            "metadata": {
+              "source": "记忆实验.pdf",
+              "page": 0,
+              "chunk_id": 2307,
+              "subject": "psychology",
+              "file_type": "pdf",
+              "faiss_score": 0.8704160451889038,
+              "rerank_score": 0.0018022963777184486
+            }
+          },
+          {
+            "content": "第8节 脑科学与教育融合\n脑科学与教育融合强调，把关于注意、记忆、学习和神经可塑性的研究更谨慎地用于理解教学与发展问题。其核心不是简单把脑成像结果直接等同于教学结论，而是利用脑科学对学习机制的认识，帮助理解个体差异、发展时机和认知负荷等问题。这个方向的价值在于推动教育研究更加重视学习的生物基础，同时保持对复杂教育情境的整体理解。\n\n第9节 心理学前沿与交叉领域的整体意义\n心理学的前沿与交叉发展表明，这门学科正在不断进入人工智能、网络社会、健康促进、环境设计和行为决策等更广阔的现实场景。无论研究主题如何变化，其核心仍然是理解人的认知、情绪、行为及其与环境的相互作用。",
+            "metadata": {
+              "source": "心理.txt",
+              "page": null,
+              "chunk_id": 2299,
+              "subject": "psychology",
+              "file_type": "txt",
+              "faiss_score": 0.9413796663284302,
+              "rerank_score": 0.0005292673595249653
+            }
+          },
+          {
+            "content": "第2节 神经元与信息传递\n心理活动依赖神经元之间的信息传递。神经元通过电化学方式传递信号，突触则是神经元相互通信的重要结构。虽然本轮检索结果集中在章节索引与应用部分，但 OpenStax 对整本教材的章节安排表明，神经系统和脑机制是理解知觉、记忆、情绪与行为的前提性内容。对 RAG 入库而言，这一节的核心是说明：心理功能必须放在神经活动背景下理解。\n\n第3节 脑与心理功能\n不同脑区与不同心理功能有密切关系，例如感觉加工、运动控制、语言、记忆和情绪调节往往依赖不同但相互协作的神经系统网络。现代认知神经科学不把脑功能理解为完全孤立的“单点对应”，而更强调分布式网络协同。这个视角有助于解释为什么复杂心理活动通常需要多个系统共同参与。",
+            "metadata": {
+              "source": "心理.txt",
+              "page": null,
+              "chunk_id": 2272,
+              "subject": "psychology",
+              "file_type": "txt",
+              "faiss_score": 0.94435715675354,
+              "rerank_score": 0.0001617828820599243
+            }
+          }
+        ],
+        "retrieval_summary": "[片段1] source=记忆实验.pdf chunk=2307 subject=psychology rerank_score=0.0018022963777184486\n[片段2] source=心理.txt chunk=2299 subject=psychology rerank_score=0.0005292673595249653\n[片段3] source=心理.txt chunk=2272 subject=psychology rerank_score=0.0001617828820599243",
+        "status": "ok",
+        "subject": "psychology"
+      },
+      "error": null
+    },
+    {
+      "step": "background_agent",
+      "timestamp": "2026-04-18T01:00:32.257011",
+      "input": {
+        "topic": "学习迁移",
+        "subject": "psychology",
+        "retrieved_docs_count": 3
+      },
+      "output": {
+        "problem_background": "**题目背景**\n本研究旨在探讨学习迁移在分散复习和及时回顾策略中的应用效果。现有研究表明，分散复习和及时回顾能够提高学习的稳定性，减少遗忘。遗忘曲线作为经典的教学模型，强调了复习的重要性，但具体应用时还需考虑材料的意义性、学习策略、个体差异和测试方式。此外，脑科学与教育融合强调利用关于注意、记忆、学习和神经可塑性的研究，理解个体差异、发展时机和认知负荷等问题，从而推动教育研究更加重视学习的生物基础。神经科学表明，心理活动依赖于神经元之间的信息传递，不同脑区与不同心理功能有密切关系，这为理解复杂心理活动提供了新的视角。",
+        "background_evidence_summary": "背景依据来自当前检索片段。"
+      },
+      "error": null
+    },
+    {
+      "step": "problem_agent",
+      "timestamp": "2026-04-18T01:00:35.572848",
+      "input": {
+        "topic": "学习迁移",
+        "subject": "psychology",
+        "problem_background": "**题目背景**\n本研究旨在探讨学习迁移在分散复习和及时回顾策略中的应用效果。现有研究表明，分散复习和及时回顾能够提高学习的稳定性，减少遗忘。遗忘曲线作为经典的教学模型，强调了复习的重要性，但具体应用时还需考虑材料的意义性、学习策略、个体差异和测试方式。此外，脑科学与教育融合强调利用关于注意、记忆、学习和神经可塑性的研究，理解个体差异、发展时机和认知负荷等问题，从而推动教育研究更加重视学习的生物基础。神经科学表明，心理活动依赖于神经元之间的信息传递，不同脑区与不同心理功能有密切关系，这为理解复杂心理活动提供了新的视角。"
+      },
+      "output": {
+        "problem_statement": {},
+        "raw_problem_output": "题目名称：...\n",
+        "problem_statement_valid": false,
+        "problem_statement_errors": [
+          "missing_or_empty_field: description",
+          "missing_or_empty_field: input_format",
+          "missing_or_empty_field: output_format",
+          "missing_or_empty_field: sample_input",
+          "missing_or_empty_field: sample_output",
+          "missing_or_empty_field: constraints"
+        ]
+      },
+      "error": null
+    },
+    {
+      "step": "finalize_problem_invalid",
+      "timestamp": "2026-04-18T01:00:35.574859",
+      "input": {
+        "topic": "学习迁移",
+        "subject": "psychology"
+      },
+      "output": {
+        "error": "problem_statement_invalid",
+        "details": [
+          "missing_or_empty_field: description",
+          "missing_or_empty_field: input_format",
+          "missing_or_empty_field: output_format",
+          "missing_or_empty_field: sample_input",
+          "missing_or_empty_field: sample_output",
+          "missing_or_empty_field: constraints"
+        ],
+        "raw_problem_output": "题目名称：...\n",
+        "audit_file": "audit_logs\\20260418_010025_学习迁移.json"
+      },
+      "error": null
+    }
+  ]
+}

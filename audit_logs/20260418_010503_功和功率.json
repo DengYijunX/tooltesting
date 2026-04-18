@@ -1,0 +1,129 @@
+{
+  "topic": "功和功率",
+  "created_at": "2026-04-18T01:05:03.046121",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-18T01:05:04.793978",
+      "input": {
+        "topic": "功和功率",
+        "subject": "physics"
+      },
+      "output": {
+        "retrieved_docs": [
+          {
+            "content": "74\n高中物理必修第二册\n功与功率\n   功\n当力F  的方向与运动方向成某一角度时（图 8.1-1），\n可以把力F  分解为两个分力：与位移方向一致的分力  F l ，\n与位移方向垂直的分力F 2 。设物体在力F  的作用下发生的\n位移的大小是 l，则分力F l 所做的功等于 Fl l。分力 F2 的方\n向与位移的方向垂直，物体在  F2 的方向上没有发生位移，\nF2 所做的功等于0 。因此，力F 对物体所做的功W 等于Fl  l，\n而 Fl ＝ Fcos α，所以\n1\n物理学的任务是发现普遍的自然规律。\n因为这样的规律的最简单的形式之一表现\n为某种物理量的不变性，所以对于守恒量\n的寻求不仅是合理的，而且也是极为重要\n的研究方向。\n——劳厄\n①",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 78,
+              "chunk_id": 1000,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.8154983520507812,
+              "rerank_score": 0.980527400970459
+            }
+          },
+          {
+            "content": "76\n高中物理必修第二册\n   功率  \n在物理学中，做功的快慢用功率表示。如果从开始计时到时刻t \n这段时间内，力做的功为W ，则功W 与完成这些功所用时间t 之比叫\n作功率（power）。用P 表示功率，则有\n                                            P ＝ W\nt\n                                        \n在国际单位制中，功率的单位是瓦特 （watt），简称瓦，符号\n是 W。1 W ＝ 1 J/s。瓦这个单位比较小，技术上常用千瓦 （kW）\n作功率的单位， 1 kW ＝ 1 000 W。力、位移、时间都与功率相联\n系，这种联系在技术上具有重要意义。",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 80,
+              "chunk_id": 1006,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.7179481983184814,
+              "rerank_score": 0.9439588189125061
+            }
+          },
+          {
+            "content": "80\n高中物理必修第三册\n电流在一段电路中所做的功与通电时间之比叫作电功\n率（electric power），用 P 表示，由 P ＝ t\nW  ， 进而得到\nP ＝ UI\n这个公式表示，电流在一段电路中做功的功率 P 等于\n这段电路两端的电压 U与电流 I的乘积。\n其中，电流、电压和时间的单位分别是安培（ A）、 伏\n特（V）和秒（ s） ，电功和电功率的单位分别是焦耳（ J）\n和瓦特（W）。\n   焦耳定律  \n初中我们就学过，能量在相互转化或转移的过程中是守恒\n的，下面我们应用能量守恒定律分析电路中的能量转化问题。\n电流做功，究竟电能会转化为哪种形式的能量，要看\n电路中有哪种类型的用电器。\n电流通过电热水器中的电热元件做功时，电能全部转",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第三册（2024-08）.pdf",
+              "page": 84,
+              "chunk_id": 605,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.7223085165023804,
+              "rerank_score": 0.7691981196403503
+            }
+          },
+          {
+            "content": "作功率的单位， 1 kW ＝ 1 000 W。力、位移、时间都与功率相联\n系，这种联系在技术上具有重要意义。\n如果物体沿位移方向受的力是 F ，从计时开始到时刻 t 这段时\n间内，发生的位移是 l，则力在这段时间内所做的功\nW ＝ Fl\n因此，有\nP ＝ W\nt\n ＝ Fl\nt\n由于位移 l 是从开始计时到时刻 t 这段时间内发生的 ，所以 \n向和竖直方向的两个分力，竖直方向的分力 Fy、支持力 FN 和重力 G 与运动方向垂直，\n不做功。所以各力对雪橇做的总功为拉力的水平分力Fx 和阻力F阻所做的功的代数和。\n图 8.1-3\nv\n\u001c\u0007T\nF䭨\nFy\nFN\nFx\nF\nG\n37°\n解   拉力在水平方向的分力为Fx ＝F cos  37° ，它所做的功为",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 80,
+              "chunk_id": 1007,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.8565397262573242,
+              "rerank_score": 0.7554389834403992
+            }
+          }
+        ],
+        "retrieval_summary": "[片段1] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1000 subject=physics rerank_score=0.980527400970459\n[片段2] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1006 subject=physics rerank_score=0.9439588189125061\n[片段3] source=普通高中教科书_物理必修_第三册（2024-08）.pdf chunk=605 subject=physics rerank_score=0.7691981196403503\n[片段4] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1007 subject=physics rerank_score=0.7554389834403992",
+        "status": "ok",
+        "subject": "physics"
+      },
+      "error": null
+    },
+    {
+      "step": "background_agent",
+      "timestamp": "2026-04-18T01:05:07.707737",
+      "input": {
+        "topic": "功和功率",
+        "subject": "physics",
+        "retrieved_docs_count": 4
+      },
+      "output": {
+        "problem_background": "题目背景：\n\n在高中物理教学中，功和功率是两个重要的概念。当一个力作用在物体上，如果F与位移方向之间的夹角为α，那么F在水平方向上的分力Fl所做的功为Flcosα。功率是描述做功快慢的物理量，定义为单位内所做的功W与完成这些功所需时间t的比，即P＝W/t。在国际单位制中，功率的单位为瓦（W），1 kW是常用的的功率单位，1 kW＝1 1。这些概念在技术领域中具有重要意义。",
+        "background_evidence_summary": "背景依据来自当前检索片段。"
+      },
+      "error": null
+    },
+    {
+      "step": "problem_agent",
+      "timestamp": "2026-04-18T01:05:41.663947",
+      "input": {
+        "topic": "功和功率",
+        "subject": "physics",
+        "problem_background": "题目背景：\n\n在高中物理教学中，功和功率是两个重要的概念。当一个力作用在物体上，如果F与位移方向之间的夹角为α，那么F在水平方向上的分力Fl所做的功为Flcosα。功率是描述做功快慢的物理量，定义为单位内所做的功W与完成这些功所需时间t的比，即P＝W/t。在国际单位制中，功率的单位为瓦（W），1 kW是常用的的功率单位，1 kW＝1 1。这些概念在技术领域中具有重要意义。"
+      },
+      "output": {
+        "problem_statement": {},
+        "raw_problem_output": "题目 nâma：功和 功率\r\n题目描述：编写一个程序，计算给定力 *</a> href=\"https://example.com\">力</a> 位力>计算给定的力*力水平力*力*</a> href=\"https://example.com\">力</a> 杛力 力F在水平方向上所做的功Fl以及功率P。已知力*力*</a> href=\"https://example.com\">已知力</a>` 位`* 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位`",
+        "problem_statement_valid": false,
+        "problem_statement_errors": [
+          "missing_or_empty_field: title",
+          "missing_or_empty_field: input_format",
+          "missing_or_empty_field: output_format",
+          "missing_or_empty_field: sample_input",
+          "missing_or_empty_field: sample_output",
+          "missing_or_empty_field: constraints"
+        ]
+      },
+      "error": null
+    },
+    {
+      "step": "finalize_problem_invalid",
+      "timestamp": "2026-04-18T01:05:41.665374",
+      "input": {
+        "topic": "功和功率",
+        "subject": "physics"
+      },
+      "output": {
+        "error": "problem_statement_invalid",
+        "details": [
+          "missing_or_empty_field: title",
+          "missing_or_empty_field: input_format",
+          "missing_or_empty_field: output_format",
+          "missing_or_empty_field: sample_input",
+          "missing_or_empty_field: sample_output",
+          "missing_or_empty_field: constraints"
+        ],
+        "raw_problem_output": "题目 nâma：功和 功率\r\n题目描述：编写一个程序，计算给定力 *</a> href=\"https://example.com\">力</a> 位力>计算给定的力*力水平力*力*</a> href=\"https://example.com\">力</a> 杛力 力F在水平方向上所做的功Fl以及功率P。已知力*力*</a> href=\"https://example.com\">已知力</a>` 位`* 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位` 位`",
+        "audit_file": "audit_logs\\20260418_010503_功和功率.json"
+      },
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,155 @@
+{
+  "topic": "匀变速直线运动",
+  "created_at": "2026-04-18T01:01:42.153848",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-18T01:01:43.992737",
+      "input": {
+        "topic": "匀变速直线运动",
+        "subject": "physics"
+      },
+      "output": {
+        "retrieved_docs": [
+          {
+            "content": "50\n高中物理必修第一册\n图 2.4-4 手机截屏\n自由落体运动是初速度为 0 的匀加速直线运动，所以\n匀变速直线运动的基本公式及其推论都适用于自由落体  \n运动。\n把初速度 v0 ＝ 0 和加速度 a ＝ g 分别代入匀变速直线运\n动的速度与时间的关系式和位移与时间的关系式，可以得\n到自由落体的速度、位移与时间的关系式分别为\nv ＝gt，x ＝ 2\n1 gt2\n 世界是物质的 ，物质\n的运动有多种形式，例如\n机械运动、热运动和电磁\n运动等。这些不同的运动\n形式有着不同的运动规\n律，我们将陆续学习。\n伽利略对自由落体运动的研究\n利用逻辑推理说明了重物与轻物下落得同样快后，伽利略并没有就此止步，而是进一步通过\n实验研究了自由落体运动的规律。",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第一册（2024-08）.pdf",
+              "page": 54,
+              "chunk_id": 144,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.7176676988601685,
+              "rerank_score": 0.9915097951889038
+            }
+          },
+          {
+            "content": "40\n高中物理必修第一册\n【例题】\n                                        Δv＝v － v0         \n代入 a ＝ Δt\nΔv  中，得到\nv ＝ v0 ＋ at \n这就是匀变速直线运动的速度与时间的关系式。\n一辆汽车以 36 km/h 的速度在平直公路上匀速行驶。从某时刻起，它以 0.6 m/s\n2\n \n的加速度加速，10 s 末因故突然紧急刹车，随后汽车停了下来。刹车时做匀减速运动\n的加速度大小是6 m/s\n2\n。\n（1）汽车在 10 s 末的速度是多少？\n（2）汽车从刹车到停下来用了多长时间？\n分析\n 依题意，汽车加速和减速过程都是在做匀变速直线运动。\n第（\n1）问是已知加速的时间求末速度。",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第一册（2024-08）.pdf",
+              "page": 44,
+              "chunk_id": 111,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6913925409317017,
+              "rerank_score": 0.987838864326477
+            }
+          },
+          {
+            "content": "第二章 匀变速直线运动的研究\n43\n航空母舰的舰载机既要在航母上起飞，也要在航母上降落。\n（1）某舰载机起飞时，采用弹射装置使飞机获得 10 m/s 的速度后，由机上发动机\n使飞机获得 25 m/s\n2\n 的加速度在航母跑道上匀加速前进， 2.4 s 后离舰升空。飞机匀加\n速滑行的距离是多少？\n（2）飞机在航母上降落时，需用阻拦索使飞机迅速停下来。若某次飞机着舰时的\n速度为 80 m/s，飞机钩住阻拦索后经过 2.5 s 停下来。将这段运动视为匀减速直线运\n动，此过程中飞机加速度的大小及滑行的距离各是多少？\n分析 两个问题都是已知匀变速直线运动的时间来计算位移。第（ 1）问需要用\n匀变速直线运动的位移与时间的关系式计算。第（ 2）问中，飞机着舰做匀减速直线",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第一册（2024-08）.pdf",
+              "page": 47,
+              "chunk_id": 121,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6836103200912476,
+              "rerank_score": 0.9858973026275635
+            }
+          },
+          {
+            "content": "第二章 匀变速直线运动的研究\n39\n匀变速直线运动的速度与时间的关系2\n如果 C919 飞机沿直线做匀速运动，它的 v-t\n图像是一条平行于时间轴的直线。在上节课的实\n验中，小车在重物牵引下运动的 v-t 图像是一条\n倾斜的直线，它表示小车在做什么样的运动？\n问题\n图 2.2-1 匀变速直线运动的 \nv-t 图像\n~\n~\n~\n~\nO\n1\n2\n3\n4\nv\nv\nv\nv\nv\n0v\nΔ\nΔt\nΔ\nΔ\nv\nv'\nt 1 t 2 t 3 t 4 t\n   匀变速直线运动\n \n由上节课的实验我们看到，小车运动的 v-t 图像类似\n于图 2.2-1 所示的 v-t 图像，是一条倾斜的直线。无论Δ t \n选在什么区间，对应的速度的变化量 Δ v 与时间的变化量",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第一册（2024-08）.pdf",
+              "page": 43,
+              "chunk_id": 108,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6611365079879761,
+              "rerank_score": 0.9813023209571838
+            }
+          }
+        ],
+        "retrieval_summary": "[片段1] source=普通高中教科书_物理必修_第一册（2024-08）.pdf chunk=144 subject=physics rerank_score=0.9915097951889038\n[片段2] source=普通高中教科书_物理必修_第一册（2024-08）.pdf chunk=111 subject=physics rerank_score=0.987838864326477\n[片段3] source=普通高中教科书_物理必修_第一册（2024-08）.pdf chunk=121 subject=physics rerank_score=0.9858973026275635\n[片段4] source=普通高中教科书_物理必修_第一册（2024-08）.pdf chunk=108 subject=physics rerank_score=0.9813023209571838",
+        "status": "ok",
+        "subject": "physics"
+      },
+      "error": null
+    },
+    {
+      "step": "background_agent",
+      "timestamp": "2026-04-18T01:01:46.437425",
+      "input": {
+        "topic": "匀变速直线运动",
+        "subject": "physics",
+        "retrieved_docs_count": 4
+      },
+      "output": {
+        "problem_background": "匀变速直线运动是物理学中的基本运动形式之一。自由落体运动作为一种典型的匀变速直线运动，其初速度为0，加速度为重力加速度g。伽利略通过逻辑推理和实验研究了自由落体运动的规律，得出了自由落体的速度与时间的关系式为\\(v = gt\\)，位移与时间的关系式为\\(x = \\frac{1}{2}gt^2\\)。此外，匀变速直线运动还包括匀加速直线运动和匀减速直线运动，如汽车加速和紧急刹车的过程，以及舰载机在航母上的起飞和降落。这些运动形式遵循统一的运动规律，可以通过速度与时间的关系式和位移与时间的关系式进行描述和计算。",
+        "background_evidence_summary": "背景依据来自当前检索片段。"
+      },
+      "error": null
+    },
+    {
+      "step": "problem_agent",
+      "timestamp": "2026-04-18T01:01:49.602883",
+      "input": {
+        "topic": "匀变速直线运动",
+        "subject": "physics",
+        "problem_background": "匀变速直线运动是物理学中的基本运动形式之一。自由落体运动作为一种典型的匀变速直线运动，其初速度为0，加速度为重力加速度g。伽利略通过逻辑推理和实验研究了自由落体运动的规律，得出了自由落体的速度与时间的关系式为\\(v = gt\\)，位移与时间的关系式为\\(x = \\frac{1}{2}gt^2\\)。此外，匀变速直线运动还包括匀加速直线运动和匀减速直线运动，如汽车加速和紧急刹车的过程，以及舰载机在航母上的起飞和降落。这些运动形式遵循统一的运动规律，可以通过速度与时间的关系式和位移与时间的关系式进行描述和计算。"
+      },
+      "output": {
+        "problem_statement": {
+          "title": "匀变速直线运动计算",
+          "description": "给定一个匀变速直线运动的物体，已知其初速度 (v_0)、加速度 (a) 和时间 (t)，计算该物体在时间 (t) 时的速度 (v) 和位移 (x)。",
+          "input_format": "三个实数，分别表示初速度 (v_0)、加速度 (a) 和时间 (t)，用空格分隔。",
+          "output_format": "两个实数，分别表示物体在时间 (t) 时的速度 (v) 和位移 (x)，用空格分隔。",
+          "sample_input": "0 9.8 2",
+          "sample_output": "19.6 19.6",
+          "constraints": "(v_0)、(a)、(t) 均为实数，且 (a \\neq 0)，(t \\geq 0)。",
+          "sample_explanation": ""
+        },
+        "raw_problem_output": "题目名称：匀变速直线运动计算\n题目描述：给定一个匀变速直线运动的物体，已知其初速度 \\(v_0\\)、加速度 \\(a\\) 和时间 \\(t\\)，计算该物体在时间 \\(t\\) 时的速度 \\(v\\) 和位移 \\(x\\)。\n输入格式：三个实数，分别表示初速度 \\(v_0\\)、加速度 \\(a\\) 和时间 \\(t\\)，用空格分隔。\n输出格式：两个实数，分别表示物体在时间 \\(t\\) 时的速度 \\(v\\) 和位移 \\(x\\)，用空格分隔。\n样例输入：0 9.8 2\n样例输出：19.6 19.6\n数据范围：\\(v_0\\)、\\(a\\)、\\(t\\) 均为实数，且 \\(a \\neq 0\\)，\\(t \\geq 0\\)。",
+        "problem_statement_valid": true,
+        "problem_statement_errors": []
+      },
+      "error": null
+    },
+    {
+      "step": "solution_agent",
+      "timestamp": "2026-04-18T01:01:59.071966",
+      "input": {
+        "topic": "匀变速直线运动",
+        "subject": "physics",
+        "problem_statement": {
+          "title": "匀变速直线运动计算",
+          "description": "给定一个匀变速直线运动的物体，已知其初速度 (v_0)、加速度 (a) 和时间 (t)，计算该物体在时间 (t) 时的速度 (v) 和位移 (x)。",
+          "input_format": "三个实数，分别表示初速度 (v_0)、加速度 (a) 和时间 (t)，用空格分隔。",
+          "output_format": "两个实数，分别表示物体在时间 (t) 时的速度 (v) 和位移 (x)，用空格分隔。",
+          "sample_input": "0 9.8 2",
+          "sample_output": "19.6 19.6",
+          "constraints": "(v_0)、(a)、(t) 均为实数，且 (a \\neq 0)，(t \\geq 0)。",
+          "sample_explanation": ""
+        }
+      },
+      "output": {
+        "language": "python",
+        "solution_explanation": "",
+        "reference_code": "",
+        "raw_solution_output": "{\n  \"explanation\": \"根据题意计算速度 (v) 和用位移 (x)。v = v_ + + + + + a * t\" \" x = v_\\\"\\\" \\\" a * t * t / \" 输出代码直接实现这些计算。\",\n  \"code\": \"import math\\nv = float(input().strip())\\na = float(input().strip())\\t\\nt = float(input(). \\\").strip()\\nv = v +\\\"\\\" \\\" a * t\\nx = v\\\"\\\"\\\" \\\" a * t * t\\nprint \\\" \\\".v \\\" \\\\\" \\\"x\\\"\",\n\"\n}}assistant\n{\"error\": \"insufficient_information\"\n}",
+        "solution_valid": false,
+        "solution_errors": [
+          "json_decode_failed"
+        ]
+      },
+      "error": null
+    },
+    {
+      "step": "finalize_solution_invalid",
+      "timestamp": "2026-04-18T01:01:59.073974",
+      "input": {
+        "topic": "匀变速直线运动",
+        "subject": "physics"
+      },
+      "output": {
+        "error": "solution_invalid",
+        "details": [
+          "json_decode_failed"
+        ],
+        "raw_solution_output": "{\n  \"explanation\": \"根据题意计算速度 (v) 和用位移 (x)。v = v_ + + + + + a * t\" \" x = v_\\\"\\\" \\\" a * t * t / \" 输出代码直接实现这些计算。\",\n  \"code\": \"import math\\nv = float(input().strip())\\na = float(input().strip())\\t\\nt = float(input(). \\\").strip()\\nv = v +\\\"\\\" \\\" a * t\\nx = v\\\"\\\"\\\" \\\" a * t * t\\nprint \\\" \\\".v \\\" \\\\\" \\\"x\\\"\",\n\"\n}}assistant\n{\"error\": \"insufficient_information\"\n}",
+        "audit_file": "audit_logs\\20260418_010142_匀变速直线运动.json"
+      },
+      "error": null
+    }
+  ]
+}

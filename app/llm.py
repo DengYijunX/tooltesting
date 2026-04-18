@@ -50,8 +50,11 @@ class SiliconFlowLLM:
 
                 resp.raise_for_status()
                 data = resp.json()
-                return data["choices"][0]["message"]["content"]
-            except requests.exceptions.RequestException as e:
+                content = data["choices"][0]["message"].get("content", "")
+                if not isinstance(content, str) or not content.strip():
+                    raise ValueError("LLM returned empty content")
+                return content.strip()
+            except (requests.exceptions.RequestException, KeyError, IndexError, TypeError, ValueError) as e:
                 last_error = e
                 print(f"LLM request failed on attempt {attempt + 1}: {e}")
                 time.sleep(2 * (attempt + 1))

@@ -1,0 +1,84 @@
+{
+  "topic": "动能定理",
+  "created_at": "2026-04-18T01:06:41.543914",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-18T01:06:43.638651",
+      "input": {
+        "topic": "动能定理",
+        "subject": "physics"
+      },
+      "output": {
+        "retrieved_docs": [
+          {
+            "content": "制中都是焦耳，这是因为\n1 kg（m/s）\n2\n＝ 1 N·m ＝ 1 J\n   动能定理  \n在得到动能的表达式后， 2\n1\nmv2\n2\n－ 2\n1\nmv1\n2\n 可以写成 \n                                      W ＝ Ek2 － Ek1             \n其中 Ek2 表示一个过程的末动能，  Ek1 表示这个过程的初  \n动能。\n这个关系表明，力在一个过程中对物体做的功，等于\n物体在这个过程中动能的变化 。这个结论叫作动能定理\n（theorem of kinetic energy）。\n如果物体受到几个力的共同作用，动能定理中的力对物\n体做的功 W 即为合力做的功，它等于各个力做功的代数和。\n这里，动能定理是在物体受恒力作用，并且做直线运",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 89,
+              "chunk_id": 1034,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.5929433703422546,
+              "rerank_score": 0.9985201954841614
+            }
+          },
+          {
+            "content": "如果物体受到几个力的共同作用，动能定理中的力对物\n体做的功 W 即为合力做的功，它等于各个力做功的代数和。\n这里，动能定理是在物体受恒力作用，并且做直线运\n动的情况下得到的。当物体受变力作用，或做曲线运动时，\n我们可以采用把整个过程分成许多小段，认为物体在每小\n段运动中受到的是恒力，运动的轨迹是直线，把这些小段\n中力做的功相加，这样也能得到动能定理。\n2016 年8 月 16 日，我国成功发射首颗量子科学实验卫星“墨子号” ，它的质量为\n631 kg，某时刻它的速度大小为 7.6 km/s，此时它的动能是多少？\n思考与讨论\n   因为动能定理适用于变\n力做功和曲线运动的情况，\n所以在解决一些实际的力\n学问题时，它得到了广泛\n的应用。",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 89,
+              "chunk_id": 1035,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6990710496902466,
+              "rerank_score": 0.9946233034133911
+            }
+          },
+          {
+            "content": "86\n高中物理必修第二册\n从这个例题可以看出，动能定理不涉及物体运动过程\n中的加速度和时间，因此用它处理问题常常比较方便。\n在应用动能定理时还应该注意到，力对物体做的功可\n以为正值，也可以为负值。合力做正功时，物体的动能增\n加；合力做负功时，物体的动能减少。\n一架喷气式飞机，质量  m 为 7.0×10\n4\n kg，起飞过程中从静止开始滑跑。当位移 l\n达到 2.5×10\n3\n m 时，速度达到起飞速度 80 m/s。在此过程中，飞机受到的平均阻力是\n飞机所受重力的 50\n1  。g 取 10 m/s\n2\n，求飞机平均牵引力的大小。\n【例题 1】\n分析   本题已知飞机\n滑跑过程的始 、末速度 ，\n因而能够知道它在滑跑过\n程中增加的动能。根据动",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 90,
+              "chunk_id": 1036,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6630454063415527,
+              "rerank_score": 0.9760718941688538
+            }
+          },
+          {
+            "content": "84\n高中物理必修第二册\n动能和动能定理\n   动能的表达式 \n大量实例说明，物体动能的变化和力对物体做的功密\n切相关。因此，研究物体的动能离不开对力做功的分析。\n这与上一节研究重力势能的思路是一致的。\n质量为 m 的某物体在光滑水平面上运动，在与运动方\n向相同的恒力 F 的作用下发生一段位移  l，速度由 v1 增加\n到 v2（图 8.3-1）。\n在这个过程中，恒力 F 做的功 W ＝ Fl，根据牛顿第二\n定律，有\nF ＝ ma\n再根据匀变速直线运动的速度与位移的关系式，有\nl ＝ 2a\nv2\n2\n－ v1\n2\n把 F、l 的表达式代入 W ＝ Fl 中，可得 F 做的功\n                                W ＝ 2\n1 mv2\n2\n－ 2\n1\nmv1",
+            "metadata": {
+              "source": "普通高中教科书_物理必修_第二册（2024-08）.pdf",
+              "page": 88,
+              "chunk_id": 1031,
+              "subject": "physics",
+              "file_type": "pdf",
+              "faiss_score": 0.6635376811027527,
+              "rerank_score": 0.9617051482200623
+            }
+          }
+        ],
+        "retrieval_summary": "[片段1] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1034 subject=physics rerank_score=0.9985201954841614\n[片段2] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1035 subject=physics rerank_score=0.9946233034133911\n[片段3] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1036 subject=physics rerank_score=0.9760718941688538\n[片段4] source=普通高中教科书_物理必修_第二册（2024-08）.pdf chunk=1031 subject=physics rerank_score=0.9617051482200623",
+        "status": "ok",
+        "subject": "physics"
+      },
+      "error": null
+    },
+    {
+      "step": "background_agent",
+      "timestamp": "2026-04-18T01:08:30.238873",
+      "input": {
+        "topic": "动能定理",
+        "subject": "physics",
+        "retrieved_docs_count": 4
+      },
+      "output": {
+        "problem_background": "",
+        "background_evidence_summary": "背景依据来自当前检索片段。"
+      },
+      "error": null
+    }
+  ]
+}

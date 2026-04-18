@@ -25,6 +25,9 @@ def build_solution_prompt(problem_statement: dict) -> str:
 1. 必须严格依据题面，不得改题。
 2. 必须生成可直接运行的 Python 代码。
 3. 代码必须从标准输入读取数据，向标准输出打印结果。
+4. 代码的读取方式必须严格匹配 input_format 和 sample_input 的行数与结构。
+5. 如果题面要求多行输入，代码必须逐行读取，或一次性读取全部输入后按行解析；不要把多行样例错误地按单行 `input().split()` 处理。
+6. 如果 sample_input 明显是两行或多行，代码必须与该结构一致。
 4. 不要输出伪代码。
 5. 不要输出 Markdown，不要输出代码块，不要输出额外解释。
 6. explanation 字段写简洁思路说明。

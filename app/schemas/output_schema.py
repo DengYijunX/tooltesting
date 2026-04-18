@@ -36,3 +36,14 @@ class FinalReview(TypedDict, total=False):
     valid: bool
     issues: List[str]
     suggestions: List[str]
+
+
+class KnowledgeCheck(TypedDict, total=False):
+    knowledge_sufficiency: bool
+    knowledge_sufficiency_issues: List[str]
+    knowledge_stats: Dict[str, Any]
+
+
+class ConsistencyCheck(TypedDict, total=False):
+    consistency_passed: bool
+    consistency_issues: List[str]

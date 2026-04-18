@@ -1,0 +1,16 @@
+{
+  "topic": "遗忘曲线",
+  "created_at": "2026-04-18T01:34:00.637309",
+  "steps": [
+    {
+      "step": "retrieval_agent",
+      "timestamp": "2026-04-18T01:34:12.814040",
+      "input": {
+        "topic": "遗忘曲线",
+        "subject": "psychology"
+      },
+      "output": {},
+      "error": "ConnectionError: HTTPSConnectionPool(host='api.siliconflow.cn', port=443): Max retries exceeded with url: /v1/embeddings (Caused by NewConnectionError(\"HTTPSConnection(host='api.siliconflow.cn', port=443): Failed to establish a new connection: [WinError 10013] 以一种访问权限不允许的方式做了一个访问套接字的尝试。\"))"
+    }
+  ]
+}
