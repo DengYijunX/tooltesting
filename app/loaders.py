@@ -74,6 +74,7 @@ def infer_subject_from_path(path: Path) -> str:
 
 def load_docs_from_dir(data_dir: str) -> List[Document]:
     all_docs: List[Document] = []
+    skipped_files: List[str] = []
 
     for path in Path(data_dir).rglob("*"):
         if not path.is_file():
@@ -81,11 +82,15 @@ def load_docs_from_dir(data_dir: str) -> List[Document]:
 
         suffix = path.suffix.lower()
 
-        if suffix in [".txt", ".md"]:
-            docs = load_txt_md(path)
-        elif suffix == ".pdf":
-            docs = load_pdf(path)
-        else:
+        try:
+            if suffix in [".txt", ".md"]:
+                docs = load_txt_md(path)
+            elif suffix == ".pdf":
+                docs = load_pdf(path)
+            else:
+                continue
+        except Exception as exc:
+            skipped_files.append(f"{path} ({type(exc).__name__}: {exc})")
             continue
 
         subject = infer_subject_from_path(path)
@@ -93,5 +98,10 @@ def load_docs_from_dir(data_dir: str) -> List[Document]:
             doc.metadata["subject"] = subject
 
         all_docs.extend(docs)
+
+    if skipped_files:
+        print("以下文件读取失败，已跳过：")
+        for item in skipped_files:
+            print(f"- {item}")
 
     return all_docs

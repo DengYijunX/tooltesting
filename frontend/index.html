@@ -527,6 +527,27 @@
       background: linear-gradient(135deg, oklch(0.94 0.055 83), oklch(0.93 0.08 135));
     }
 
+    .library-card {
+      margin-top: 18px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: oklch(0.98 0.018 95 / 0.72);
+    }
+
+    .library-card h3 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: -0.03em;
+    }
+
+    .library-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: end;
+    }
+
     .mono {
       font-family: var(--font-code);
       font-size: 12px;
@@ -695,6 +716,19 @@
               <button class="ghost-btn" id="loadDemo" type="button">载入成功示例</button>
             </div>
           </form>
+
+          <div class="library-card" aria-label="已落库题目">
+            <h3>已落库题目</h3>
+            <div class="library-actions">
+              <label>
+                选择题目
+                <select id="problemLibrary">
+                  <option value="">正在加载题库...</option>
+                </select>
+              </label>
+              <a class="problem-link" id="openStoredProblem" href="#">进入做题</a>
+            </div>
+          </div>
         </aside>
       </section>
 
@@ -812,6 +846,8 @@ print(f"{a:.2f}")</pre>
     const form = document.querySelector("#generatorForm");
     const loadDemo = document.querySelector("#loadDemo");
     const submitButton = form.querySelector("button[type='submit']");
+    const problemLibrary = document.querySelector("#problemLibrary");
+    const openStoredProblem = document.querySelector("#openStoredProblem");
 
     function setStepState(activeIndex) {
       steps.forEach((step, index) => {
@@ -884,6 +920,56 @@ print(f"{a:.2f}")</pre>
       setStepState(data.ok ? steps.length : Math.max(1, data.failedStepIndex || 4));
     }
 
+    function updateStoredProblemLink() {
+      const id = problemLibrary.value;
+      if (id) {
+        openStoredProblem.href = `/problems/${id}`;
+        openStoredProblem.classList.remove("hidden");
+      } else {
+        openStoredProblem.href = "#";
+      }
+    }
+
+    async function loadProblemLibrary(selectedId = "") {
+      try {
+        const response = await fetch("/api/problems?limit=50");
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || "题库加载失败");
+        }
+
+        const problems = payload.problems || [];
+        problemLibrary.innerHTML = "";
+        if (!problems.length) {
+          const option = document.createElement("option");
+          option.value = "";
+          option.textContent = "暂无已落库题目";
+          problemLibrary.appendChild(option);
+          updateStoredProblemLink();
+          return;
+        }
+
+        problems.forEach((item) => {
+          const option = document.createElement("option");
+          option.value = item.id;
+          option.textContent = `${item.title} · ${item.subject} · ${item.created_at}`;
+          problemLibrary.appendChild(option);
+        });
+
+        if (selectedId && problems.some((item) => item.id === selectedId)) {
+          problemLibrary.value = selectedId;
+        }
+        updateStoredProblemLink();
+      } catch (error) {
+        problemLibrary.innerHTML = "";
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = error.message;
+        problemLibrary.appendChild(option);
+        updateStoredProblemLink();
+      }
+    }
+
     function renderApiResponse(payload) {
       const result = payload.result || {};
       const finalResult = result.final_result || {};
@@ -912,6 +998,10 @@ print(f"{a:.2f}")</pre>
         reviewPassed: Boolean(review.valid),
         failedStepIndex: inferFailedStepIndex(error)
       });
+
+      if (savedProblem.id) {
+        loadProblemLibrary(savedProblem.id);
+      }
     }
 
     function inferFailedStepIndex(error) {
@@ -983,6 +1073,7 @@ print(f"{a:.2f}")</pre>
     }
 
     form.addEventListener("submit", generateProblem);
+    problemLibrary.addEventListener("change", updateStoredProblemLink);
     loadDemo.addEventListener("click", () => renderResult({
       ...demo,
       knowledgePassed: true,
@@ -990,6 +1081,7 @@ print(f"{a:.2f}")</pre>
       sandboxPassed: true,
       reviewPassed: true
     }));
+    loadProblemLibrary();
   </script>
 </body>
 </html>

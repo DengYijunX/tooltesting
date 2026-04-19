@@ -115,7 +115,7 @@ def problems(limit: int = 30) -> Dict[str, Any]:
 def problem_detail(problem_id: str) -> Dict[str, Any]:
     try:
         return {
-            "problem": get_problem(problem_id, include_private=False),
+            "problem": get_problem(problem_id, include_private=True),
         }
     except KeyError:
         raise HTTPException(status_code=404, detail="题目不存在")

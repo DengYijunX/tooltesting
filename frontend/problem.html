@@ -217,6 +217,13 @@
       box-shadow: 0 14px 28px oklch(0.48 0.14 45 / 0.24);
     }
 
+    button.secondary-btn {
+      border: 1px solid var(--line);
+      color: var(--primary-deep);
+      background: oklch(0.96 0.04 85);
+      box-shadow: none;
+    }
+
     button:disabled {
       cursor: wait;
       opacity: 0.72;
@@ -254,6 +261,60 @@
       font-family: var(--font-code);
       font-size: 12px;
       white-space: pre-wrap;
+    }
+
+    .answer-panel {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: oklch(0.98 0.018 95 / 0.74);
+      overflow: hidden;
+    }
+
+    .answer-panel summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 15px 16px;
+      cursor: pointer;
+      color: var(--primary-deep);
+      font-weight: 900;
+      list-style: none;
+    }
+
+    .answer-panel summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .answer-panel summary::after {
+      content: "⌄";
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 999px;
+      background: oklch(0.93 0.055 85);
+      transition: transform 160ms ease;
+    }
+
+    .answer-panel[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    .answer-body {
+      display: grid;
+      gap: 12px;
+      padding: 0 16px 16px;
+    }
+
+    .answer-code {
+      overflow: auto;
+      padding: 16px;
+      border-radius: 14px;
+      color: oklch(0.92 0.035 94);
+      background: oklch(0.18 0.025 70);
+      font-size: 13px;
     }
 
     .hidden { display: none; }
@@ -336,17 +397,32 @@
         <textarea id="code" spellcheck="false">import sys
 
 def main():
-    data = sys.stdin.read().strip().split()
     # 在这里编写你的答案
+    
 
 if __name__ == "__main__":
     main()
 </textarea>
         <div class="button-row">
           <button id="submitCode" type="button">提交并判题</button>
+          <button class="secondary-btn" id="fillReference" type="button">填入参考答案</button>
           <a class="ghost-link" id="auditLink" href="#">查看审计文件路径</a>
         </div>
         <div class="case-list" id="caseList"></div>
+
+        <details class="answer-panel" id="answerPanel">
+          <summary>查看参考答案</summary>
+          <div class="answer-body">
+            <div class="field">
+              <span>Explanation</span>
+              <p id="answerExplanation">暂无参考思路。</p>
+            </div>
+            <div>
+              <span class="pill" id="answerLanguage">python</span>
+              <pre class="answer-code" id="answerCode">暂无参考代码</pre>
+            </div>
+          </div>
+        </details>
       </aside>
     </section>
   </div>
@@ -354,6 +430,8 @@ if __name__ == "__main__":
   <script>
     const problemId = window.location.pathname.split("/").filter(Boolean).pop();
     const submitButton = document.querySelector("#submitCode");
+    const codeEditor = document.querySelector("#code");
+    const fillReferenceButton = document.querySelector("#fillReference");
     let currentProblem = null;
 
     function setText(id, value) {
@@ -376,6 +454,76 @@ if __name__ == "__main__":
       setText("#sampleOutput", problem.sample_output);
       setText("#constraints", problem.constraints);
       document.querySelector("#auditLink").textContent = record.audit_file || "无审计文件";
+      const solution = record.reference_solution || {};
+      setText("#answerExplanation", solution.explanation || "暂无参考思路。");
+      setText("#answerLanguage", solution.language || "python");
+      setText("#answerCode", solution.code || "暂无参考代码");
+    }
+
+    function insertTextAtSelection(textarea, text) {
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      textarea.value = textarea.value.slice(0, start) + text + textarea.value.slice(end);
+      const cursor = start + text.length;
+      textarea.selectionStart = cursor;
+      textarea.selectionEnd = cursor;
+    }
+
+    function handleTabIndent(event) {
+      const textarea = event.target;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+      const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+      const lineEnd = value.indexOf("\n", end);
+      const selectionEnd = lineEnd === -1 ? value.length : lineEnd;
+      const selectedText = value.slice(lineStart, selectionEnd);
+
+      event.preventDefault();
+
+      if (start === end && !event.shiftKey) {
+        insertTextAtSelection(textarea, "    ");
+        return;
+      }
+
+      const lines = selectedText.split("\n");
+      if (event.shiftKey) {
+        const outdented = lines.map((line) => {
+          if (line.startsWith("    ")) return line.slice(4);
+          if (line.startsWith("\t")) return line.slice(1);
+          return line;
+        }).join("\n");
+        textarea.value = value.slice(0, lineStart) + outdented + value.slice(selectionEnd);
+        textarea.selectionStart = lineStart;
+        textarea.selectionEnd = lineStart + outdented.length;
+        return;
+      }
+
+      const indented = lines.map((line) => `    ${line}`).join("\n");
+      textarea.value = value.slice(0, lineStart) + indented + value.slice(selectionEnd);
+      textarea.selectionStart = lineStart;
+      textarea.selectionEnd = lineStart + indented.length;
+    }
+
+    function handleEnterAutoIndent(event) {
+      const textarea = event.target;
+      const start = textarea.selectionStart;
+      const value = textarea.value;
+      const lineStart = value.lastIndexOf("\n", start - 1) + 1;
+      const currentLine = value.slice(lineStart, start);
+      const baseIndent = currentLine.match(/^\s*/)?.[0] || "";
+      const extraIndent = currentLine.trimEnd().endsWith(":") ? "    " : "";
+
+      event.preventDefault();
+      insertTextAtSelection(textarea, `\n${baseIndent}${extraIndent}`);
+    }
+
+    function handleEditorKeydown(event) {
+      if (event.key === "Tab") {
+        handleTabIndent(event);
+      } else if (event.key === "Enter") {
+        handleEnterAutoIndent(event);
+      }
     }
 
     function renderSubmitResult(payload) {
@@ -420,7 +568,7 @@ if __name__ == "__main__":
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             language: "python",
-            code: document.querySelector("#code").value
+            code: codeEditor.value
           })
         });
         const payload = await response.json();
@@ -438,7 +586,21 @@ if __name__ == "__main__":
       }
     }
 
+    function fillReferenceCode() {
+      const solution = currentProblem?.reference_solution || {};
+      if (!solution.code) {
+        const summary = document.querySelector("#summary");
+        summary.className = "result-box fail";
+        summary.textContent = "当前题目没有可用参考代码。";
+        return;
+      }
+      codeEditor.value = solution.code;
+      codeEditor.focus();
+    }
+
+    codeEditor.addEventListener("keydown", handleEditorKeydown);
     submitButton.addEventListener("click", submitCode);
+    fillReferenceButton.addEventListener("click", fillReferenceCode);
     loadProblem().catch((error) => {
       setText("#title", "题目加载失败");
       const summary = document.querySelector("#summary");
