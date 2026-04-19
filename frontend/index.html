@@ -326,6 +326,20 @@
       border: 1px solid oklch(0.82 0.065 82);
     }
 
+    .problem-link {
+      display: inline-flex;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      padding: 0 14px;
+      border: 1px solid oklch(0.82 0.065 82);
+      border-radius: 999px;
+      color: var(--primary-deep);
+      background: oklch(0.96 0.04 85);
+      font-weight: 900;
+      text-decoration: none;
+    }
+
     .workflow {
       display: grid;
       grid-template-columns: repeat(9, minmax(90px, 1fr));
@@ -770,7 +784,10 @@ print(f"{a:.2f}")</pre>
               <strong>审计日志</strong>
               <div class="mono" id="auditFile">audit_logs/20260418_160028_牛顿第二定律.json</div>
             </div>
-            <span class="pill" id="resultState">ready</span>
+            <div class="button-row">
+              <a class="problem-link hidden" id="openProblem" href="#">进入题目页面</a>
+              <span class="pill" id="resultState">ready</span>
+            </div>
           </div>
         </aside>
       </section>
@@ -787,6 +804,7 @@ print(f"{a:.2f}")</pre>
       sampleOutput: "2.00",
       code: "m = float(input().strip())\nF = float(input().strip())\na = F / m\nprint(f\"{a:.2f}\")",
       audit: "audit_logs/20260418_160028_牛顿第二定律.json",
+      problemUrl: "",
       ok: true
     };
 
@@ -851,6 +869,14 @@ print(f"{a:.2f}")</pre>
       document.querySelector("#language").textContent = data.language || "python";
       document.querySelector("#auditFile").textContent = data.audit || "未生成审计日志";
       document.querySelector("#resultState").textContent = data.ok ? "verified" : "failed";
+      const openProblem = document.querySelector("#openProblem");
+      if (data.problemUrl) {
+        openProblem.href = data.problemUrl;
+        openProblem.classList.remove("hidden");
+      } else {
+        openProblem.href = "#";
+        openProblem.classList.add("hidden");
+      }
       setBooleanBadge("#knowledgeBadge", data.knowledgePassed);
       setBooleanBadge("#consistencyBadge", data.consistencyPassed);
       setBooleanBadge("#sandboxBadge", data.sandboxPassed);
@@ -866,6 +892,7 @@ print(f"{a:.2f}")</pre>
       const sandbox = result.sandbox_result || finalResult.sandbox_result || {};
       const review = result.final_review || finalResult.final_review || {};
       const error = payload.error || finalResult.error || "";
+      const savedProblem = payload.problem || {};
 
       renderResult({
         ok: payload.ok,
@@ -878,6 +905,7 @@ print(f"{a:.2f}")</pre>
         language: solution.language || result.language || "python",
         code: solution.code || result.reference_code || "",
         audit: result.audit_file || finalResult.audit_file || "",
+        problemUrl: savedProblem.id ? `/problems/${savedProblem.id}` : finalResult.problem_url || "",
         knowledgePassed: Boolean(result.knowledge_sufficiency || finalResult.knowledge_check?.knowledge_sufficiency),
         consistencyPassed: Boolean(result.consistency_passed || finalResult.consistency_check?.consistency_passed),
         sandboxPassed: Boolean(sandbox.passed),
