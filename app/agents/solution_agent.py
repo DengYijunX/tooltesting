@@ -161,6 +161,17 @@ def _build_solution_retry_directives(
     if any("reference_code_output_write_missing" in issue for issue in feedback_issues):
         directives.append("code 必须显式向标准输出打印结果。")
 
+    if any("missing_or_empty_field: language" in issue for issue in feedback_issues):
+        directives.append('language 字段必须是字符串 "python"。')
+
+    if any("missing_or_empty_field: code" in issue for issue in feedback_issues):
+        directives.append(
+            "code 字段不能为空。必须输出完整可运行的 Python 程序，不要返回 insufficient_information 或空字符串。"
+        )
+
+    if any("missing_or_empty_field: explanation" in issue for issue in feedback_issues):
+        directives.append("explanation 字段不能为空，使用 1 到 2 句话说明解法。")
+
     if any("reference_code_input_line_count_mismatch" in issue for issue in feedback_issues):
         directives.append(
             "题面输入结构与代码读取方式必须一致。不要把多行输入误写成单次 input().split() 读取。"

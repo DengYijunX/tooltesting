@@ -40,3 +40,5 @@ storage/
 logs/
 
 data/
+
+audit_logs/

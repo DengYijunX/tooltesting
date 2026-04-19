@@ -5,6 +5,7 @@ from app.agents.retrieval_agent import run_retrieval_agent
 from app.agents.background_agent import run_background_agent
 from app.agents.problem_agent import run_problem_agent
 from app.agents.solution_agent import run_solution_agent
+from app.agents.task_modeling_agent import run_task_modeling_agent
 from app.agents.testcase_agent import run_testcase_agent
 from app.executors.sandbox import run_code_in_sandbox
 from app.validators.consistency import check_problem_solution_consistency
@@ -95,6 +96,28 @@ def _build_problem_feedback(
             feedback.append(
                 f"{source_step}: {field} 含有可疑样例内容。样例里不要带引号、解释文本或单独的引号残片。"
             )
+        elif issue.startswith("suspicious_content:"):
+            field = issue.split(":", 1)[1].strip()
+            feedback.append(
+                f"{source_step}: 字段 {field} 含有脏文本、角色标记或“资料不足”等残留内容，必须清理。"
+            )
+        elif issue == "computation_rule_missing":
+            feedback.append(
+                f"{source_step}: 题面缺少明确计算规则。必须写清楚如何从输入计算输出，"
+                "例如公式、更新规则、累加/平均规则，不能只写“模拟”或“计算最终结果”。"
+            )
+        elif issue == "task_model_formula_rule_mismatch":
+            feedback.append(
+                f"{source_step}: 题面没有使用任务模型中的公式或输出变量。必须直接采用 task_model.knowledge_rule。"
+            )
+        elif issue == "sorting_input_format_missing_n":
+            feedback.append(f"{source_step}: 排序题必须在输入格式中声明第一行输入 n，后续 n 行为记录。")
+        elif issue == "sorting_sample_missing_n":
+            feedback.append(f"{source_step}: 排序题样例输入第一行必须是记录数量 n，不能直接从第一条记录开始。")
+        elif issue == "sorting_sample_record_count_mismatch":
+            feedback.append(f"{source_step}: 排序题样例输入中的记录数量必须与第一行 n 一致。")
+        elif issue == "sorting_sample_output_unknown_id":
+            feedback.append(f"{source_step}: 排序题样例输出包含样例输入中不存在的编号，必须只输出真实记录编号。")
         elif issue.startswith("sample_"):
             feedback.append(f"{source_step}: 样例输入输出不完整，必须提供与题面一致的 sample_input 和 sample_output。")
         elif issue.startswith("problem_field_suspicious:"):
@@ -144,6 +167,20 @@ def _build_solution_feedback(
             feedback.append(f"{source_step}: 代码没有正确输出结果，必须向标准输出打印答案。")
         elif issue == "solution_explanation_empty":
             feedback.append(f"{source_step}: explanation 不能为空，至少用 1 到 2 句话说明思路。")
+        elif issue == "identifier_output_format_mismatch":
+            feedback.append(
+                f"{source_step}: 题面要求输出编号或 ID，参考代码必须把编号按整数处理和输出，"
+                "不能因为用 float 读取而打印 2.0 这类小数编号。"
+            )
+        elif issue == "missing_or_empty_field: language":
+            feedback.append(f"{source_step}: language 字段不能为空，必须为 python。")
+        elif issue == "missing_or_empty_field: code":
+            feedback.append(
+                f"{source_step}: code 字段不能为空。必须根据题面给出完整可运行的 Python 程序，"
+                "不要返回 insufficient_information 或空字符串。"
+            )
+        elif issue == "missing_or_empty_field: explanation":
+            feedback.append(f"{source_step}: explanation 字段不能为空，必须简要说明解法。")
         elif issue == "python_code_compile_failed":
             feedback.append(f"{source_step}: 上一轮参考代码编译失败，必须返回完整且可编译的 Python 代码。")
         elif issue == "solution_compile_failed":
@@ -225,6 +262,87 @@ def _build_problem_feedback_from_sandbox(
     return feedback
 
 
+def _problem_outputs_identifiers(problem_statement: Dict[str, Any]) -> bool:
+    text = "\n".join(
+        str(problem_statement.get(field, ""))
+        for field in ("description", "input_format", "output_format")
+    )
+    return any(marker in text for marker in ("编号", "序号", "id", "ID"))
+
+
+def _can_repair_sample_output_from_sandbox(
+    sandbox_result: Dict[str, Any],
+    state: Dict[str, Any],
+) -> bool:
+    if _problem_outputs_identifiers(state.get("problem_statement", {})):
+        return False
+
+    details = sandbox_result.get("details", [])
+    if not details:
+        return False
+
+    for detail in details:
+        actual_output = str(detail.get("actual_output", "")).strip()
+        expected_output = str(detail.get("expected_output", "")).strip()
+        if detail.get("passed"):
+            continue
+        if detail.get("case_type") != "sample":
+            return False
+        if detail.get("error"):
+            return False
+        if detail.get("returncode", 0) != 0:
+            return False
+        if str(detail.get("stderr", "")).strip():
+            return False
+        if not actual_output or actual_output == expected_output:
+            return False
+        if len(actual_output) > 200:
+            return False
+
+    return True
+
+
+def _repair_sample_output_from_sandbox(
+    state: Dict[str, Any],
+    sandbox_result: Dict[str, Any],
+) -> Dict[str, Any]:
+    repaired_cases: List[Dict[str, Any]] = []
+    problem_statement = dict(state.get("problem_statement", {}))
+    test_cases = list(state.get("test_cases", []))
+
+    for detail in sandbox_result.get("details", []):
+        if detail.get("case_type") != "sample" or detail.get("passed"):
+            continue
+
+        case_id = detail.get("case_id")
+        actual_output = str(detail.get("actual_output", "")).strip()
+        expected_output = str(detail.get("expected_output", "")).strip()
+
+        if not actual_output or actual_output == expected_output:
+            continue
+
+        problem_statement["sample_output"] = actual_output
+        for case in test_cases:
+            if case.get("case_id") == case_id:
+                case["expected_output"] = actual_output
+
+        repaired_cases.append({
+            "case_id": case_id,
+            "old_expected_output": expected_output,
+            "new_expected_output": actual_output,
+        })
+
+    state["problem_statement"] = problem_statement
+    state["test_cases"] = test_cases
+
+    return {
+        "sample_output_rule_repaired": bool(repaired_cases),
+        "repaired_cases": repaired_cases,
+        "problem_statement": problem_statement,
+        "test_cases": test_cases,
+    }
+
+
 def _run_problem_attempts(
     logger: AuditLogger,
     state: Dict[str, Any],
@@ -234,6 +352,7 @@ def _run_problem_attempts(
     initial_feedback: List[str] | None = None,
     previous_output: str = "",
     round_index: int = 0,
+    task_model: Dict[str, Any] | None = None,
 ) -> Dict[str, Any]:
     feedback = list(initial_feedback or [])
     prior_output = previous_output
@@ -246,6 +365,7 @@ def _run_problem_attempts(
             retrieval_summary=state.get("retrieval_summary", ""),
             feedback_issues=feedback or None,
             previous_output=prior_output,
+            task_model=task_model,
         )
         logger.log_step(
             step_name=f"problem_agent_round_{round_index}_attempt_{attempt}",
@@ -253,6 +373,7 @@ def _run_problem_attempts(
                 "topic": topic,
                 "subject": subject,
                 "problem_background": state.get("problem_background", ""),
+                "task_model": task_model or {},
                 "feedback_issues": feedback,
             },
             output_data=problem_output,
@@ -336,12 +457,19 @@ def is_valid_python_code(code: str) -> bool:
     except Exception:
         return False
 
-def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[str, Any]:
+def run_problem_generation_workflow(
+    topic: str,
+    subject: str = "all",
+    requested_algorithm: str = "auto",
+    notes: str = "",
+) -> Dict[str, Any]:
     logger = AuditLogger(topic=topic)
 
     state: Dict[str, Any] = {
         "topic": topic,
         "subject": subject,
+        "requested_algorithm": requested_algorithm,
+        "notes": notes,
         "audit_file": logger.filepath,
     }
 
@@ -432,11 +560,51 @@ def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[st
         output_data=background_output,
     )
 
+    # Step 2.5: task modeling
+    task_modeling_output = run_task_modeling_agent(
+        topic=topic,
+        subject=subject,
+        retrieved_docs=state.get("retrieved_docs", []),
+        problem_background=state.get("problem_background", ""),
+        requested_algorithm=requested_algorithm,
+        notes=notes,
+    )
+    state.update(task_modeling_output)
+    logger.log_step(
+        step_name="task_modeling_agent",
+        input_data={
+            "topic": topic,
+            "subject": subject,
+            "requested_algorithm": requested_algorithm,
+            "notes": notes,
+            "retrieved_docs_count": len(state.get("retrieved_docs", [])),
+        },
+        output_data=task_modeling_output,
+    )
+
+    if not state.get("task_model_valid", False):
+        state["final_result"] = {
+            "error": "task_model_invalid",
+            "details": state.get("task_model_errors", []),
+            "audit_file": state["audit_file"],
+        }
+        logger.log_step(
+            step_name="finalize_task_model_invalid",
+            input_data={
+                "topic": topic,
+                "subject": subject,
+                "requested_algorithm": requested_algorithm,
+            },
+            output_data=state["final_result"],
+        )
+        return state
+
     problem_feedback: List[str] = []
     problem_previous_output = ""
     solution_feedback: List[str] = []
     solution_previous_output = ""
     should_regenerate_problem = True
+    sample_output_rule_repaired = False
 
     for repair_round in range(MAX_REPAIR_ROUNDS + 1):
         round_index = repair_round + 1
@@ -452,6 +620,7 @@ def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[st
                     initial_feedback=problem_feedback,
                     previous_output=problem_previous_output,
                     round_index=round_index,
+                    task_model=state.get("task_model", {}),
                 )
             except Exception as exc:
                 return _finalize_step_exception(
@@ -462,6 +631,7 @@ def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[st
                         "topic": topic,
                         "subject": subject,
                         "problem_background": state.get("problem_background", ""),
+                        "task_model": state.get("task_model", {}),
                         "feedback_issues": problem_feedback,
                     },
                     exc,
@@ -688,7 +858,52 @@ def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[st
         )
 
         if not sandbox_result.get("passed", False):
+            if (
+                not sample_output_rule_repaired
+                and _can_repair_sample_output_from_sandbox(sandbox_result, state)
+            ):
+                repair_output = _repair_sample_output_from_sandbox(
+                    state,
+                    sandbox_result,
+                )
+                sample_output_rule_repaired = bool(
+                    repair_output.get("sample_output_rule_repaired", False)
+                )
+                logger.log_step(
+                    step_name=f"sample_output_rule_repair_round_{round_index}",
+                    input_data={
+                        "problem_statement": state.get("problem_statement", {}),
+                        "sandbox_result": sandbox_result,
+                    },
+                    output_data=repair_output,
+                )
+                if sample_output_rule_repaired:
+                    sandbox_result = run_code_in_sandbox(
+                        reference_code=state.get("reference_code", ""),
+                        test_cases=state.get("test_cases", []),
+                    )
+                    state["sandbox_result"] = sandbox_result
+                    logger.log_step(
+                        step_name=f"sandbox_executor_after_sample_output_repair_round_{round_index}",
+                        input_data={
+                            "reference_code": state.get("reference_code", ""),
+                            "test_cases": state.get("test_cases", []),
+                        },
+                        output_data={"sandbox_result": sandbox_result},
+                    )
+                    if sandbox_result.get("passed", False):
+                        break
+
             if repair_round < MAX_REPAIR_ROUNDS:
+                if _problem_outputs_identifiers(state.get("problem_statement", {})):
+                    solution_feedback = _build_solution_feedback(
+                        ["identifier_output_format_mismatch"],
+                        state,
+                        "sandbox_executor",
+                    )
+                    solution_previous_output = state.get("raw_solution_output", "")
+                    continue
+
                 route = _route_sandbox_failure(sandbox_result)
                 if route == "problem":
                     problem_feedback = _build_problem_feedback_from_sandbox(
@@ -762,6 +977,8 @@ def run_problem_generation_workflow(topic: str, subject: str = "all") -> Dict[st
     state["final_result"] = {
         "topic": topic,
         "subject": subject,
+        "requested_algorithm": state.get("requested_algorithm", "auto"),
+        "task_model": state.get("task_model", {}),
         "background": state.get("problem_background", ""),
         "problem_statement": state.get("problem_statement", {}),
         "reference_solution": {

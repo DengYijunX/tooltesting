@@ -1,0 +1,967 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RAG 编程题目生成平台</title>
+  <style>
+    :root {
+      --bg: oklch(0.985 0.018 92);
+      --ink: oklch(0.18 0.035 72);
+      --muted: oklch(0.48 0.035 72);
+      --card: oklch(0.995 0.01 92 / 0.86);
+      --card-strong: oklch(1 0.012 92);
+      --line: oklch(0.86 0.035 82);
+      --primary: oklch(0.57 0.16 48);
+      --primary-deep: oklch(0.42 0.13 45);
+      --accent: oklch(0.73 0.16 135);
+      --accent-ink: oklch(0.23 0.07 138);
+      --danger: oklch(0.58 0.19 25);
+      --success: oklch(0.55 0.15 145);
+      --shadow: 0 24px 70px oklch(0.4 0.06 70 / 0.14);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --font-ui: "Space Grotesk", "HarmonyOS Sans SC", "Microsoft YaHei", sans-serif;
+      --font-code: "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: var(--font-ui);
+      background:
+        radial-gradient(circle at 12% 8%, oklch(0.91 0.12 78 / 0.65), transparent 30rem),
+        radial-gradient(circle at 92% 18%, oklch(0.88 0.12 146 / 0.45), transparent 28rem),
+        linear-gradient(135deg, oklch(0.99 0.018 95), oklch(0.955 0.03 76));
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      content: "";
+      background-image:
+        linear-gradient(oklch(0.55 0.05 70 / 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(0.55 0.05 70 / 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .shell {
+      width: min(1440px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 16px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: oklch(1 0.01 95 / 0.78);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 10px 35px oklch(0.45 0.07 75 / 0.08);
+      animation: dropIn 520ms ease-out both;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border-radius: 14px;
+      color: oklch(0.16 0.04 70);
+      background: linear-gradient(135deg, var(--accent), oklch(0.84 0.17 86));
+      box-shadow: inset 0 -8px 18px oklch(0.38 0.12 90 / 0.14);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .status-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 0 6px oklch(0.7 0.15 145 / 0.16);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(360px, 0.97fr);
+      gap: 26px;
+      align-items: stretch;
+      padding: 46px 0 28px;
+    }
+
+    .hero-copy {
+      position: relative;
+      overflow: hidden;
+      min-height: 540px;
+      padding: 42px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background:
+        linear-gradient(145deg, oklch(1 0.01 94 / 0.92), oklch(0.96 0.034 80 / 0.72)),
+        var(--card);
+      box-shadow: var(--shadow);
+      animation: riseIn 580ms ease-out both;
+    }
+
+    .hero-copy::after {
+      position: absolute;
+      right: -90px;
+      bottom: -110px;
+      width: 310px;
+      height: 310px;
+      content: "";
+      border-radius: 50%;
+      background: conic-gradient(from 120deg, var(--primary), var(--accent), oklch(0.77 0.16 93), var(--primary));
+      opacity: 0.18;
+      filter: blur(2px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid oklch(0.79 0.08 88);
+      border-radius: 999px;
+      color: var(--primary-deep);
+      background: oklch(0.96 0.055 86 / 0.75);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    h1 {
+      max-width: 780px;
+      margin: 28px 0 18px;
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: 0.94;
+      letter-spacing: -0.08em;
+    }
+
+    .hero-copy p {
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 42px;
+    }
+
+    .metric {
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: oklch(1 0.01 95 / 0.58);
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 26px;
+      letter-spacing: -0.04em;
+    }
+
+    .metric span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .generator-card {
+      padding: 28px;
+      border: 1px solid oklch(0.82 0.045 78);
+      border-radius: var(--radius-lg);
+      background: oklch(1 0.012 96 / 0.86);
+      box-shadow: var(--shadow);
+      animation: riseIn 680ms 80ms ease-out both;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .card-title h2 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.04em;
+    }
+
+    .pill {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: oklch(0.97 0.02 95);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    label {
+      display: grid;
+      gap: 8px;
+      color: oklch(0.35 0.045 72);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      outline: none;
+      color: var(--ink);
+      background: oklch(0.995 0.008 95);
+      font: inherit;
+      transition: border-color 170ms ease, box-shadow 170ms ease, transform 170ms ease;
+    }
+
+    textarea {
+      min-height: 108px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px oklch(0.7 0.13 55 / 0.18);
+    }
+
+    .inline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    button {
+      display: inline-flex;
+      min-height: 46px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 18px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 900;
+      transition: transform 140ms ease, box-shadow 180ms ease, background 180ms ease;
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    .primary-btn {
+      color: oklch(0.99 0.01 92);
+      background: linear-gradient(135deg, var(--primary), oklch(0.5 0.15 35));
+      box-shadow: 0 14px 28px oklch(0.48 0.14 45 / 0.24);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 36px oklch(0.48 0.14 45 / 0.28);
+    }
+
+    .ghost-btn {
+      color: var(--primary-deep);
+      background: oklch(0.96 0.04 85);
+      border: 1px solid oklch(0.82 0.065 82);
+    }
+
+    .workflow {
+      display: grid;
+      grid-template-columns: repeat(9, minmax(90px, 1fr));
+      gap: 10px;
+      margin: 12px 0 28px;
+    }
+
+    .step {
+      position: relative;
+      min-height: 92px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: oklch(1 0.01 95 / 0.72);
+      transform: translateY(12px);
+      opacity: 0;
+      animation: stepIn 430ms ease-out both;
+    }
+
+    .step:nth-child(2) { animation-delay: 40ms; }
+    .step:nth-child(3) { animation-delay: 80ms; }
+    .step:nth-child(4) { animation-delay: 120ms; }
+    .step:nth-child(5) { animation-delay: 160ms; }
+    .step:nth-child(6) { animation-delay: 200ms; }
+    .step:nth-child(7) { animation-delay: 240ms; }
+    .step:nth-child(8) { animation-delay: 280ms; }
+    .step:nth-child(9) { animation-delay: 320ms; }
+
+    .step[data-state="done"] {
+      border-color: oklch(0.73 0.13 145);
+      background: oklch(0.95 0.055 142 / 0.78);
+    }
+
+    .step[data-state="active"] {
+      border-color: var(--primary);
+      background: oklch(0.97 0.05 78 / 0.9);
+      box-shadow: 0 10px 28px oklch(0.5 0.12 58 / 0.15);
+    }
+
+    .step small {
+      display: block;
+      color: var(--muted);
+      font-family: var(--font-code);
+      font-size: 11px;
+    }
+
+    .step strong {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      line-height: 1.35;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: 1fr 0.88fr;
+      gap: 22px;
+    }
+
+    .panel {
+      min-width: 0;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: var(--card);
+      box-shadow: 0 16px 48px oklch(0.45 0.06 70 / 0.09);
+    }
+
+    .panel h3 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      letter-spacing: -0.04em;
+    }
+
+    .problem-box {
+      display: grid;
+      gap: 14px;
+    }
+
+    .field {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: oklch(1 0.01 95 / 0.66);
+    }
+
+    .field span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--primary-deep);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .field p {
+      margin: 0;
+      color: oklch(0.27 0.04 72);
+      line-height: 1.7;
+      white-space: pre-wrap;
+    }
+
+    .code-card {
+      overflow: hidden;
+      border-radius: 18px;
+      background: oklch(0.19 0.025 70);
+      box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.08);
+    }
+
+    .code-head {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 15px;
+      color: oklch(0.83 0.03 90);
+      background: oklch(0.24 0.028 72);
+      font-family: var(--font-code);
+      font-size: 12px;
+    }
+
+    pre {
+      margin: 0;
+      overflow: auto;
+      padding: 18px;
+      color: oklch(0.92 0.035 94);
+      font-family: var(--font-code);
+      font-size: 13px;
+      line-height: 1.75;
+      white-space: pre-wrap;
+    }
+
+    .check-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px;
+      border-radius: 16px;
+      background: oklch(0.97 0.028 95);
+      border: 1px solid var(--line);
+    }
+
+    .check b {
+      font-size: 14px;
+    }
+
+    .badge {
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .badge.pass {
+      color: oklch(0.25 0.1 145);
+      background: oklch(0.91 0.09 145);
+    }
+
+    .badge.wait {
+      color: oklch(0.42 0.09 70);
+      background: oklch(0.93 0.07 80);
+    }
+
+    .badge.fail {
+      color: oklch(0.35 0.12 28);
+      background: oklch(0.92 0.09 32);
+    }
+
+    .audit-strip {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-top: 22px;
+      padding: 18px;
+      border-radius: 20px;
+      color: oklch(0.24 0.055 72);
+      background: linear-gradient(135deg, oklch(0.94 0.055 83), oklch(0.93 0.08 135));
+    }
+
+    .mono {
+      font-family: var(--font-code);
+      font-size: 12px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @keyframes dropIn {
+      from { opacity: 0; transform: translateY(-18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes riseIn {
+      from { opacity: 0; transform: translateY(26px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes stepIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .results {
+        grid-template-columns: 1fr;
+      }
+
+      .workflow {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .shell {
+        width: min(100% - 20px, 1440px);
+        padding-top: 10px;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        border-radius: 22px;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding-top: 18px;
+      }
+
+      .hero-copy,
+      .generator-card,
+      .panel {
+        padding: 20px;
+        border-radius: 22px;
+      }
+
+      .metric-row,
+      .inline-grid,
+      .workflow {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 44px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar" aria-label="平台导航">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">RG</div>
+        <div>
+          <div>RAG Problem Lab</div>
+          <small>知识库驱动的编程题生成平台</small>
+        </div>
+      </div>
+      <div class="top-actions">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span>FastAPI 后端 · 真实工作流调用</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <span class="eyebrow">Retrieval · Agents · Sandbox · Review</span>
+          <h1 id="hero-title">把知识库变成可验证的编程题。</h1>
+          <p>
+            输入主题和学科范围，平台会串联检索、知识充分性判断、题面生成、参考解法、
+            一致性检查、测试用例、沙箱执行和最终审核，输出一份可追溯的题目生成结果。
+          </p>
+
+          <div class="metric-row" aria-label="平台能力">
+            <div class="metric">
+              <strong>9</strong>
+              <span>阶段生成与验证链路</span>
+            </div>
+            <div class="metric">
+              <strong>2+</strong>
+              <span>已接入知识库学科</span>
+            </div>
+            <div class="metric">
+              <strong>JSON</strong>
+              <span>审计日志可追溯</span>
+            </div>
+          </div>
+        </div>
+
+        <aside class="generator-card" aria-labelledby="generator-title">
+          <div class="card-title">
+            <h2 id="generator-title">生成控制台</h2>
+            <span class="pill">Live API</span>
+          </div>
+
+          <form id="generatorForm" class="form-grid">
+            <div class="inline-grid">
+              <label>
+                学科范围
+                <select id="subject" name="subject">
+                  <option value="physics">physics</option>
+                  <option value="psychology">psychology</option>
+                  <option value="mixed">mixed</option>
+                  <option value="all">all</option>
+                </select>
+              </label>
+              <label>
+                生成模式
+                <select id="mode" name="mode">
+                  <option value="verified">完整验证</option>
+                  <option value="draft">快速草稿</option>
+                  <option value="batch">批量测试</option>
+                </select>
+              </label>
+              <label>
+                算法类型
+                <select id="algorithm" name="algorithm">
+                  <option value="auto">自动选择</option>
+                  <option value="formula_calculation">公式计算</option>
+                  <option value="sorting">排序</option>
+                  <option value="hash_count">哈希计数</option>
+                  <option value="simulation">模拟</option>
+                  <option value="prefix_sum">前缀和</option>
+                  <option value="binary_search">二分</option>
+                  <option value="sliding_window">滑动窗口</option>
+                  <option value="greedy">贪心</option>
+                  <option value="dynamic_programming">动态规划</option>
+                </select>
+              </label>
+            </div>
+
+            <label>
+              题目主题
+              <input id="topic" name="topic" value="牛顿第二定律" placeholder="例如：牛顿第二定律、遗忘曲线、经典条件作用">
+            </label>
+
+            <label>
+              生成要求
+              <textarea id="notes" name="notes" placeholder="例如：希望题面简单、样例可直接运行、保留两位小数。">题面尽量简洁，必须通过一致性检查和沙箱执行。</textarea>
+            </label>
+
+            <div class="button-row">
+              <button class="primary-btn" type="submit">生成并验证</button>
+              <button class="ghost-btn" id="loadDemo" type="button">载入成功示例</button>
+            </div>
+          </form>
+        </aside>
+      </section>
+
+      <section class="workflow" aria-label="生成流程">
+        <article class="step" data-state="done"><small>01</small><strong>Retrieval</strong></article>
+        <article class="step" data-state="done"><small>02</small><strong>Knowledge Check</strong></article>
+        <article class="step" data-state="done"><small>03</small><strong>Background</strong></article>
+        <article class="step" data-state="done"><small>04</small><strong>Task Model</strong></article>
+        <article class="step" data-state="done"><small>05</small><strong>Problem Agent</strong></article>
+        <article class="step" data-state="done"><small>06</small><strong>Solution Agent</strong></article>
+        <article class="step" data-state="done"><small>07</small><strong>Consistency</strong></article>
+        <article class="step" data-state="done"><small>08</small><strong>Testcase</strong></article>
+        <article class="step" data-state="done"><small>09</small><strong>Sandbox</strong></article>
+        <article class="step" data-state="done"><small>10</small><strong>Review</strong></article>
+      </section>
+
+      <section class="results" aria-label="生成结果">
+        <article class="panel">
+          <h3>标准题面</h3>
+          <div class="problem-box">
+            <div class="field">
+              <span>Title</span>
+              <p id="resultTitle">牛顿第二定律应用</p>
+            </div>
+            <div class="field">
+              <span>Description</span>
+              <p id="resultDescription">给定一个物体的质量和它所受的力，根据牛顿第二定律 F = ma 计算该物体的加速度。</p>
+            </div>
+            <div class="inline-grid">
+              <div class="field">
+                <span>Input</span>
+                <p id="resultInput">两行。第一行输入质量 m，第二行输入作用力 F。</p>
+              </div>
+              <div class="field">
+                <span>Output</span>
+                <p id="resultOutput">一行输出加速度 a，结果保留两位小数。</p>
+              </div>
+            </div>
+            <div class="inline-grid">
+              <div class="field">
+                <span>Sample Input</span>
+                <p id="sampleInput">3
+6</p>
+              </div>
+              <div class="field">
+                <span>Sample Output</span>
+                <p id="sampleOutput">2.00</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <aside class="panel">
+          <h3>参考答案与验证</h3>
+          <div class="code-card">
+            <div class="code-head">
+              <span>reference_solution.py</span>
+              <span id="language">python</span>
+            </div>
+            <pre id="referenceCode">m = float(input().strip())
+F = float(input().strip())
+a = F / m
+print(f"{a:.2f}")</pre>
+          </div>
+
+          <div class="check-list">
+            <div class="check">
+              <b>知识支撑</b>
+              <span class="badge pass" id="knowledgeBadge">passed</span>
+            </div>
+            <div class="check">
+              <b>一致性检查</b>
+              <span class="badge pass" id="consistencyBadge">passed</span>
+            </div>
+            <div class="check">
+              <b>沙箱执行</b>
+              <span class="badge pass" id="sandboxBadge">passed</span>
+            </div>
+            <div class="check">
+              <b>最终审核</b>
+              <span class="badge pass" id="reviewBadge">valid</span>
+            </div>
+          </div>
+
+          <div class="audit-strip">
+            <div>
+              <strong>审计日志</strong>
+              <div class="mono" id="auditFile">audit_logs/20260418_160028_牛顿第二定律.json</div>
+            </div>
+            <span class="pill" id="resultState">ready</span>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const demo = {
+      title: "牛顿第二定律应用",
+      description: "给定一个物体的质量和它所受的力，根据牛顿第二定律 F = ma 计算该物体的加速度。",
+      input: "两行。第一行输入质量 m，第二行输入作用力 F。",
+      output: "一行输出加速度 a，结果保留两位小数。",
+      sampleInput: "3\n6",
+      sampleOutput: "2.00",
+      code: "m = float(input().strip())\nF = float(input().strip())\na = F / m\nprint(f\"{a:.2f}\")",
+      audit: "audit_logs/20260418_160028_牛顿第二定律.json",
+      ok: true
+    };
+
+    const steps = Array.from(document.querySelectorAll(".step"));
+    const form = document.querySelector("#generatorForm");
+    const loadDemo = document.querySelector("#loadDemo");
+    const submitButton = form.querySelector("button[type='submit']");
+
+    function setStepState(activeIndex) {
+      steps.forEach((step, index) => {
+        if (index < activeIndex) step.dataset.state = "done";
+        else if (index === activeIndex) step.dataset.state = "active";
+        else step.dataset.state = "wait";
+      });
+    }
+
+    function setBadge(id, text, state) {
+      const el = document.querySelector(id);
+      el.textContent = text;
+      el.className = `badge ${state}`;
+    }
+
+    function setLoadingState(isLoading) {
+      submitButton.disabled = isLoading;
+      submitButton.textContent = isLoading ? "生成中，请等待..." : "生成并验证";
+      document.querySelector("#resultState").textContent = isLoading ? "generating" : "ready";
+      if (isLoading) {
+        setBadge("#knowledgeBadge", "waiting", "wait");
+        setBadge("#consistencyBadge", "waiting", "wait");
+        setBadge("#sandboxBadge", "waiting", "wait");
+        setBadge("#reviewBadge", "waiting", "wait");
+        setStepState(0);
+      }
+    }
+
+    function setBooleanBadge(id, passed, passText = "passed", failText = "failed") {
+      setBadge(id, passed ? passText : failText, passed ? "pass" : "fail");
+    }
+
+    function extractProblem(result) {
+      const finalResult = result.final_result || {};
+      return finalResult.problem_statement || result.problem_statement || {};
+    }
+
+    function extractSolution(result) {
+      const finalResult = result.final_result || {};
+      return finalResult.reference_solution || {
+        language: result.language || "python",
+        explanation: result.solution_explanation || "",
+        code: result.reference_code || ""
+      };
+    }
+
+    function renderResult(data) {
+      document.querySelector("#resultTitle").textContent = data.title || "生成失败";
+      document.querySelector("#resultDescription").textContent = data.description || "暂无题目描述。";
+      document.querySelector("#resultInput").textContent = data.input || "暂无输入格式。";
+      document.querySelector("#resultOutput").textContent = data.output || "暂无输出格式。";
+      document.querySelector("#sampleInput").textContent = data.sampleInput || "";
+      document.querySelector("#sampleOutput").textContent = data.sampleOutput || "";
+      document.querySelector("#referenceCode").textContent = data.code || "# 暂无参考代码";
+      document.querySelector("#language").textContent = data.language || "python";
+      document.querySelector("#auditFile").textContent = data.audit || "未生成审计日志";
+      document.querySelector("#resultState").textContent = data.ok ? "verified" : "failed";
+      setBooleanBadge("#knowledgeBadge", data.knowledgePassed);
+      setBooleanBadge("#consistencyBadge", data.consistencyPassed);
+      setBooleanBadge("#sandboxBadge", data.sandboxPassed);
+      setBooleanBadge("#reviewBadge", data.reviewPassed, "valid", "invalid");
+      setStepState(data.ok ? steps.length : Math.max(1, data.failedStepIndex || 4));
+    }
+
+    function renderApiResponse(payload) {
+      const result = payload.result || {};
+      const finalResult = result.final_result || {};
+      const problem = extractProblem(result);
+      const solution = extractSolution(result);
+      const sandbox = result.sandbox_result || finalResult.sandbox_result || {};
+      const review = result.final_review || finalResult.final_review || {};
+      const error = payload.error || finalResult.error || "";
+
+      renderResult({
+        ok: payload.ok,
+        title: problem.title || (error ? `生成失败：${error}` : ""),
+        description: problem.description || finalResult.message || JSON.stringify(finalResult.details || [], null, 2),
+        input: problem.input_format || "",
+        output: problem.output_format || "",
+        sampleInput: problem.sample_input || "",
+        sampleOutput: problem.sample_output || "",
+        language: solution.language || result.language || "python",
+        code: solution.code || result.reference_code || "",
+        audit: result.audit_file || finalResult.audit_file || "",
+        knowledgePassed: Boolean(result.knowledge_sufficiency || finalResult.knowledge_check?.knowledge_sufficiency),
+        consistencyPassed: Boolean(result.consistency_passed || finalResult.consistency_check?.consistency_passed),
+        sandboxPassed: Boolean(sandbox.passed),
+        reviewPassed: Boolean(review.valid),
+        failedStepIndex: inferFailedStepIndex(error)
+      });
+    }
+
+    function inferFailedStepIndex(error) {
+      const map = {
+        subject_not_enabled: 1,
+        knowledge_insufficient: 2,
+        task_model_invalid: 4,
+        problem_statement_invalid: 5,
+        solution_invalid: 6,
+        consistency_invalid: 7,
+        testcase_invalid: 8,
+        sandbox_invalid: 9,
+        final_review_invalid: 10
+      };
+      return map[error] || 5;
+    }
+
+    async function generateProblem(event) {
+      event.preventDefault();
+      setLoadingState(true);
+
+      const requestBody = {
+        topic: document.querySelector("#topic").value.trim(),
+        subject: document.querySelector("#subject").value,
+        mode: document.querySelector("#mode").value,
+        algorithm: document.querySelector("#algorithm").value,
+        notes: document.querySelector("#notes").value.trim()
+      };
+
+      const progressTimer = window.setInterval(() => {
+        const activeIndex = steps.findIndex(step => step.dataset.state === "active");
+        setStepState(Math.min((activeIndex < 0 ? 0 : activeIndex + 1), steps.length - 1));
+      }, 900);
+
+      try {
+        const response = await fetch("/api/generate-problem", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestBody)
+        });
+
+        const payload = await response.json();
+        if (!response.ok) {
+          throw new Error(payload.detail || "后端请求失败");
+        }
+        renderApiResponse(payload);
+      } catch (error) {
+        renderResult({
+          ok: false,
+          title: "请求失败",
+          description: error.message,
+          input: requestBody.subject,
+          output: "请确认 FastAPI 服务已启动，并且 API Key 与知识库索引可用。",
+          sampleInput: requestBody.topic,
+          sampleOutput: "",
+          code: "",
+          audit: "",
+          knowledgePassed: false,
+          consistencyPassed: false,
+          sandboxPassed: false,
+          reviewPassed: false,
+          failedStepIndex: 1
+        });
+      } finally {
+        window.clearInterval(progressTimer);
+        submitButton.disabled = false;
+        submitButton.textContent = "生成并验证";
+      }
+    }
+
+    form.addEventListener("submit", generateProblem);
+    loadDemo.addEventListener("click", () => renderResult({
+      ...demo,
+      knowledgePassed: true,
+      consistencyPassed: true,
+      sandboxPassed: true,
+      reviewPassed: true
+    }));
+  </script>
+</body>
+</html>
