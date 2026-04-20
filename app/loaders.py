@@ -69,6 +69,10 @@ def infer_subject_from_path(path: Path) -> str:
         return "psychology"
     if "physics" in parts or "物理" in name:
         return "physics"
+    if "math" in parts or "数学" in name:
+        return "math"
+    if "finance" in parts or "金融" in name or "货币" in name:
+        return "finance"
     return "mixed"
 
 

@@ -113,6 +113,116 @@ def _detect_formula_spec(topic: str, text: str) -> Dict[str, Any]:
             "sample_outputs": ["81.00", "68.59", "48.00"],
         }
 
+    if "导数" in compact:
+        return {
+            "name": "二次函数导数值",
+            "formula": "derivative = 2 * a * x + b",
+            "input_variables": ["a", "b", "c", "x"],
+            "output_variable": "derivative",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["1 2 0 3", "2 -1 5 4", "-1 3 0 2"],
+            "sample_outputs": ["8.00", "15.00", "-1.00"],
+        }
+
+    if "数列" in compact or "等差数列" in compact:
+        return {
+            "name": "等差数列第 n 项",
+            "formula": "term = first + (n - 1) * difference",
+            "input_variables": ["first", "difference", "n"],
+            "output_variable": "term",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["1 2 5", "3 4 4", "10 -2 3"],
+            "sample_outputs": ["9.00", "15.00", "6.00"],
+        }
+
+    if "方差" in compact:
+        return {
+            "name": "两点分布方差",
+            "formula": "variance = p1 * (x1 - mean)^2 + p2 * (x2 - mean)^2, mean = x1 * p1 + x2 * p2",
+            "input_variables": ["x1", "p1", "x2", "p2"],
+            "output_variable": "variance",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["0 0.50 2 0.50", "1 0.25 5 0.75", "2 0.80 7 0.20"],
+            "sample_outputs": ["1.00", "3.00", "4.00"],
+        }
+
+    if "期望" in compact or "数学期望" in compact:
+        return {
+            "name": "两点分布期望",
+            "formula": "expected_value = x1 * p1 + x2 * p2",
+            "input_variables": ["x1", "p1", "x2", "p2"],
+            "output_variable": "expected_value",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["10 0.30 20 0.70", "0 0.50 2 0.50", "5 0.20 15 0.80"],
+            "sample_outputs": ["17.00", "1.00", "13.00"],
+        }
+
+    if "概率" in compact:
+        return {
+            "name": "古典概型概率",
+            "formula": "probability = favorable / total",
+            "input_variables": ["favorable", "total"],
+            "output_variable": "probability",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["3 10", "1 4", "7 8"],
+            "sample_outputs": ["0.30", "0.25", "0.88"],
+        }
+
+    if "函数" in compact:
+        return {
+            "name": "一次函数值",
+            "formula": "y = a * x + b",
+            "input_variables": ["a", "x", "b"],
+            "output_variable": "y",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["2 4 3", "-1 5 6", "3 7 -2"],
+            "sample_outputs": ["11.00", "1.00", "19.00"],
+        }
+
+    if "单利" in compact:
+        return {
+            "name": "单利终值",
+            "formula": "amount = principal * (1 + rate * years)",
+            "input_variables": ["principal", "rate", "years"],
+            "output_variable": "amount",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["1000 0.05 2", "5000 0.03 1", "2000 0.10 3"],
+            "sample_outputs": ["1100.00", "5150.00", "2600.00"],
+        }
+
+    if "现值" in compact:
+        return {
+            "name": "现值",
+            "formula": "present_value = future_value / (1 + rate) ^ years",
+            "input_variables": ["future_value", "rate", "years"],
+            "output_variable": "present_value",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["1102.50 0.05 2", "5150 0.03 1", "2662 0.10 3"],
+            "sample_outputs": ["1000.00", "5000.00", "2000.00"],
+        }
+
+    if "收益率" in compact or "回报率" in compact:
+        return {
+            "name": "收益率",
+            "formula": "return_rate = (final_value - initial_value) / initial_value",
+            "input_variables": ["initial_value", "final_value"],
+            "output_variable": "return_rate",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["100 110", "200 180", "250 300"],
+            "sample_outputs": ["0.10", "-0.10", "0.20"],
+        }
+
+    if "利率" in compact or "复利" in compact:
+        return {
+            "name": "复利终值",
+            "formula": "amount = principal * (1 + rate) ^ years",
+            "input_variables": ["principal", "rate", "years"],
+            "output_variable": "amount",
+            "unit_hint": "结果保留两位小数",
+            "sample_rows": ["1000 0.05 2", "5000 0.03 1", "2000 0.10 3"],
+            "sample_outputs": ["1102.50", "5150.00", "2662.00"],
+        }
+
     return {}
 
 

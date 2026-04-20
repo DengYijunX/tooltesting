@@ -32,6 +32,8 @@ SUPPORTED_SUBJECTS = [
 ENABLED_SUBJECTS = [
     "psychology",
     "physics",
+    "math",
+    "finance",
     "mixed",
     "all",
 ]
